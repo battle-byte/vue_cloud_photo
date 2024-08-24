@@ -9,7 +9,7 @@ export type post = {
   receiveTime?: string; //接收时间
   hireTime?: string;//录用时间
   postAvatar?: string;//头像
-  publishTime?: string;//出版时间
+  publishTime?: string;//发布时间
   view?: number;//阅读量
   isDelete?: number//是否删除
   upload?: number//下载量
@@ -28,7 +28,7 @@ export type postList = {
   receiveTime?: string; //接收时间
   hireTime?: string;//录用时间
   postAvatar?: string;//头像
-  publishTime?: string;//出版时间
+  publishTime?: string;//发布时间
   view?: number;//阅读量
   isDelete?: number//是否删除
   upload?: number//下载量
