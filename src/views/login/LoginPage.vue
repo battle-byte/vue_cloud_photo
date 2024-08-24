@@ -13,6 +13,7 @@
             v-model="formModel.userAccount"
             :prefix-icon="User"
             placeholder="请输入用户名"
+            onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
           ></el-input>
         </el-form-item>
         <el-form-item prop="userPassword">
@@ -76,6 +77,7 @@
             minlength="5"
             v-model="registerFormModel.userAccount"
             :prefix-icon="User"
+            onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
             placeholder="请输入用户名"
           ></el-input>
         </el-form-item>
@@ -104,16 +106,11 @@
         <el-form-item prop="code">
           <el-input
             v-model="registerFormModel.code"
-            style="width: 180px"
+            style="width: 250px"
             name="code"
-            placeholder="请输入验证码"
-            maxlength="4"
+            placeholder="请输入管理员提供的临时验证码"
+            maxlength="20"
           ></el-input>
-          <img
-            style="width: 180px; height: 40px; padding-left: 20px"
-            :src="captchaValue.img"
-            @click="getCaptcha"
-          />
         </el-form-item>
         <el-form-item>
           <el-button @click="registerIn(form)" class="button" type="primary" auto-insert-space>
@@ -136,19 +133,17 @@
 <script setup lang="ts">
 import { User, Lock } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
-import type { adminLogin, userRegister } from '@/types/Admin'
+import type { adminLogin, UserRegister } from '@/types/Admin'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { adminLoginAPI } from '@/service/AdminController'
 import { getCaptchaAPI } from '@/service/CaptchaController'
 import type { captcha } from '@/types/Captcha'
 import { adminStore } from '@/stores/admin'
 import { useRouter } from 'vue-router'
 import router from '@/router'
 import { userStore } from '@/stores'
-import { userRegisterAPI } from '@/service/RegisterController'
-//pinia存储管理员信息
-const adminMessageStore = adminStore()
+import { AdminLoginAPI, SignUpHandlerAPI } from '@/service/AdminController'
+
 //pinia存储用户信息
 const userMessageStore = userStore()
 //获取图片和验证码信息
@@ -161,14 +156,14 @@ const isRegister = ref(false)
 const getCaptcha = async () => {
   // this.codeUrl = 'data:image/gif;base64,' + res.img
   const res = await getCaptchaAPI()
-  captchaValue.value.img = 'data:image/gif;base64,' + res.data.img
+  captchaValue.value.img = res.data.img
   captchaValue.value.uuid = res.data.uuid
 }
 
 //登录表单校验
 const formModel = ref<adminLogin>({
   userAccount: 'Admin',
-  userPassword: '123456',
+  userPassword: '',
   code: '',
   uuid: ''
 })
@@ -199,18 +194,20 @@ const form = ref<InstanceType<typeof FormInstance>>()
 
 //设置登录的请求方法 并在成功获取请求后存储token
 const login = async () => {
-  const res = await adminLoginAPI({
+  const res = await AdminLoginAPI({
     userAccount: formModel.value.userAccount,
     userPassword: formModel.value.userPassword,
     code: formModel.value.code,
     uuid: captchaValue.value.uuid
   })
-  if (res.code == 0) {
+  if (res.code === 0) {
     userMessageStore.setUser(res.data)
     router.push({
-      path: '/index/home',
+      path: '/back/article/ArticleList',
       replace: true
     })
+  } else {
+    getCaptcha()
   }
 }
 
@@ -233,12 +230,11 @@ const loginIn = async (formE: InstanceType<typeof FormInstance> | undefined) => 
 }
 
 //注册表单校验
-const registerFormModel = ref<userRegister>({
+const registerFormModel = ref<UserRegister>({
   userAccount: '',
   userPassword: '',
   userPasswordAgain: '',
-  code: '',
-  uuid: ''
+  code: ''
 })
 //表单校验规则
 const registerRules = {
@@ -276,24 +272,21 @@ const registerRules = {
   ]
 }
 
-//注册前的校验
-const registerForm = ref<InstanceType<typeof FormInstance>>()
-
 //设置注册的请求方法 并在成功获取请求后存储token
 const register = async () => {
-  const res = await userRegisterAPI({
+  const res = await SignUpHandlerAPI({
     userAccount: registerFormModel.value.userAccount,
     userPassword: registerFormModel.value.userPassword,
     userPasswordAgain: registerFormModel.value.userPasswordAgain,
-    code: registerFormModel.value.code,
-    uuid: captchaValue.value.uuid
+    code: registerFormModel.value.code
   })
-  if (res.code == 0) {
-    userMessageStore.setUser(res.data)
-    router.push({
-      path: '/index/home',
-      replace: true
-    })
+  if (res.code === 0) {
+    // 注册成功 去登录
+    ElMessage.success('注册成功去登陆吧！')
+    goToLogin()
+  } else {
+    // 否则刷新验证码
+    getCaptcha()
   }
 }
 
@@ -334,8 +327,6 @@ const goToLogin = () => {
 
 onMounted(() => {
   getCaptcha()
-  adminMessageStore.removeAdmin()
-  userMessageStore.removeUser()
 })
 </script>
 
@@ -345,8 +336,7 @@ onMounted(() => {
   background-color: #fff;
 
   .bg {
-    background:
-      url('@/assets/login-logo3.png') no-repeat 60% center / 500px auto,
+    background: //url('@/assets/login-logo3.png') no-repeat 60% center / 500px auto,
       url('@/assets/login_bg.jpg') no-repeat center / cover;
     border-radius: 0 20px 20px 0;
   }

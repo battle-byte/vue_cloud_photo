@@ -6,15 +6,9 @@
   </view>
 </template>
 
-
-<script setup lang="ts">
-import CommonAside from './components/CommonAside.vue'
-import CommonHeader from '@/components/CommonHeader.vue'
-</script>
-
+<script setup lang="ts"></script>
 
 <style scoped>
-
 .main {
   position: absolute;
   top: 0;
@@ -22,6 +16,10 @@ import CommonHeader from '@/components/CommonHeader.vue'
   bottom: 0;
   left: 0;
   width: 100%;
+}
+
+.el-footer {
+  padding: 0px;
 }
 
 .el-header {

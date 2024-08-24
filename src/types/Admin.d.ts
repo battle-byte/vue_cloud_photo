@@ -6,53 +6,50 @@ export type adminLogin = {
   uuid?: string
 }
 
-//管理员登录响应泛型
-export type adminMessage = {
-  userName?: string
-  token?: string
-  id?: string
-  userAvatar?: string
-  userRole?: number
+//用户搜索
+export type SearchUserParam = {
+  userAccount?: string
+  uid?: string
+  page?: number
+  pageSize?: number
 }
 
 //用户登录响应泛型
-export type userMessage = {
-  userName?: string
+export type UserLoginVO = {
   token?: string
-  id?: string
-  userAvatar?: string
+  uid?: string
+  userAccount?: string
   userRole?: number
 }
 
 /*UserVO*/
-//用户登录响应泛型
 export type UserVO = {
-  id?: string
-  userName?: string
-  userAvatar?: string
-  userProfile?: string
-  userRole?: string
+  uid?: string
+  userAccount?: string
+  userRole?: number
   createTime?: string
 }
 
 /*用户注册*/
-export type userRegister = {
+export type UserRegister = {
   userAccount?: string
   userPassword?: string
   userPasswordAgain?: string
   code?: string
-  uuid?: string
+}
+// 删除管理员回显
+export type AdminDeleteShow = {
+  userAccount?: string
+  uid?: string
 }
 
+// 临时验证码
+export type AdminCode = {
+  code?: string
+}
 
-//管理员查看登录用户信息泛型
-export type UserListVO = {
-  id?: string
-  userName?: string
+/*修改用户密码*/
+export type UserUpdatePassword = {
   userAccount?: string
-  userAvatar?: string
-  userProfile?: string
-  userRole?: string
-  createTime?: string
-  updateTime?: string
+  userPassword?: string
 }

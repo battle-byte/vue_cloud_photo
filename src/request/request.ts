@@ -1,10 +1,11 @@
-import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
+import axios, { AxiosError, type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
-import { adminStore } from '@/stores/admin'
 import { userStore } from '@/stores'
 import router from '@/router'
 //请求路径
+// const baseURL = 'https://39.105.222.205:8101/api'
 const baseURL = 'http://localhost:8101/api'
+// const baseURL = 'https://dream-nova.com/api' //上线使用
 
 //创建axios实例
 const service = axios.create({
@@ -19,7 +20,7 @@ service.interceptors.request.use((config) => {
   config.headers = config.headers || {}
   const userMessage = userStore()
   //添加用户token
-  config.headers.authentication = userMessage.user.token
+  config.headers.authentication = userMessage.user?.token
   return config
 })
 
@@ -28,22 +29,22 @@ service.interceptors.response.use(
   (res) => {
     //处理通用响应结构，返回 data 部分
     // const apiResponse: ApiResponse<any> = res.data
-
     const code: number = res.data.code
     //响应码为失败
-    if (code != 0) {
+    if (code !== 0) {
       ElMessage.error(res.data.message)
-      return Promise.reject(res.data)
+      return res.data
     }
     return res.data
   },
-  (err) => {
+  (err: AxiosError) => {
     //特殊错误情况
-    if (err.response?.status === 401) {
-      router.push('/login')
-    }
-    ElMessage.error('登录认证已过期，请重新登录')
-    return Promise.reject(err)
+    // if (err.response?.status === 401) {
+    //   router.push('/login')
+    // }
+    ElMessage.error(err.message || '请求失败')
+    ElMessage.error(err.code || '请求失败')
+    return err
   }
 )
 

@@ -1,56 +1,53 @@
 import service from '@/request/request'
 import type { ApiResponse } from '@/request/ApiResponse'
 import type { PageResult } from '@/types/Pages'
-import type { AddAdmin, SearchUser, updateUser, User, UserList } from '@/types/user'
-import type { adminLogin, adminMessage, UserListVO } from '../types/Admin'
-
-
-
+import type {
+  adminLogin,
+  SearchUserParam,
+  UserLoginVO,
+  UserRegister,
+  UserUpdatePassword,
+  UserVO
+} from '../types/Admin'
 
 //管理员登录接口
-export const adminLoginAPI = (data: adminLogin): Promise<ApiResponse<adminMessage>> => {
-  return service.post('/admin/login', data)
+export const AdminLoginAPI = (data: adminLogin): Promise<ApiResponse<UserLoginVO>> => {
+  return service.post('/user/login', data)
 }
 
-
-//编辑用户
-export const handleEditAPI = (data: updateUser): Promise<ApiResponse<number>> => {
-  return service.post('/admin/handleEdit', data)
+// 管理员创建新账户
+export const SignUpHandlerAPI = (data: UserRegister): Promise<ApiResponse<string>> => {
+  return service.post('/user/signUpHandler', data)
 }
 
 //封禁用户
 export const handleBanAPI = (id: string): Promise<ApiResponse<number>> => {
-  return service.post(`/admin/handleBan/${id}`)
+  return service.get(`/user/userBan/${id}`)
 }
 
 //解禁用户
 export const handleNotBanAPI = (id: string): Promise<ApiResponse<number>> => {
-  return service.post(`/admin/handleNotBan/${id}`)
+  return service.get(`/user/userNotBan/${id}`)
 }
 
-//模糊查询用户信息
-export const getUserMessageSearchAPI = (data: SearchUser): Promise<ApiResponse<PageResult<UserListVO>>> => {
-  return service.post('/admin/getListUserMessageSearch', data)
+//模糊分页查询用户信息
+export const getUserSearchAPI = (
+  data: SearchUserParam
+): Promise<ApiResponse<PageResult<UserVO>>> => {
+  return service.post('/user/selectList', data)
 }
 
-
-//模糊查询管理员信息
-export const getAdminMessageSearchAPI = (data: SearchUser): Promise<ApiResponse<PageResult<UserList>>> => {
-  return service.post('/admin/getAdminMessageSearch', data)
+//AdminCreateCode 管理员生成临时验证码
+export const AdminCreateCodeAPI = (): Promise<ApiResponse<string>> => {
+  return service.get('/user/adminCreateCode')
 }
 
-//封禁管理员
-export const handleAdminBanAPI = (id: string): Promise<ApiResponse<number>> => {
-  return service.post(`/admin/handleAdminBan/${id}`)
+//AdminEditPassword 管理员修改密码
+export const AdminEditPasswordAPI = (data: UserUpdatePassword): Promise<ApiResponse<string>> => {
+  return service.post('/user/adminEditPassword', data)
 }
 
-//解禁管理员
-export const handleAdminNotBanAPI = (id: string): Promise<ApiResponse<number>> => {
-  return service.post(`/admin/handleAdminNotBan/${id}`)
+// deleteArticleIdAPI 删除管理员
+export const deleteAdminIdAPI = (id: string): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.get(`/user/delete/${id}`)
 }
-
-//添加新的普通管理员
-export const handleAddAdminAPI = (data: AddAdmin): Promise<ApiResponse<number>> => {
-  return service.post('/admin/handleAddAdmin', data)
-}
-
