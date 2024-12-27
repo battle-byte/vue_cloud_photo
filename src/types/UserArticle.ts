@@ -8,6 +8,7 @@ export type UserArticle = {
   uid?: string
   isDelete?: number
   createTime?: string
+  journal?: string
 }
 
 // UserArticleParam 查询用户提交表
@@ -29,6 +30,7 @@ export type UserArticleVO = {
   email?: string
   uid?: string
   createTime?: string
+  journal?: string
 }
 
 // DeleteUserArticle 删除回显

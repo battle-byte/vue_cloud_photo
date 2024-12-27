@@ -1,14 +1,15 @@
 <template>
   <view style="height: 100%; width: 100%">
-    <el-button type="primary" @click="saveNotice()" style="margin-bottom: 10px"
+    <el-button type="primary" @click="saveAboutJournals()" style="margin-bottom: 10px"
       >save the article
     </el-button>
-    <div>正在编辑公告: {{ props.id }} 标题:{{ noticeMessage.name }}</div>
+    <div>文章目的</div>
+    <div>正在编辑期刊: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
     <el-container style="height: 100%">
       <el-row style="height: 4000px; width: 847.5px">
         <main id="sample" class="item" style="width: 847.5px">
           <Editors
-            :value="noticeMessage.comment"
+            :value="aboutJournalsMessage.content"
             :handle-change="onMdChange"
             @updateValue="onMdChange"
           >
@@ -26,7 +27,7 @@
             border-radius: 10px;
           "
         >
-          <div v-html="noticeMessage.comment"></div>
+          <div v-html="aboutJournalsMessage.content"></div>
         </view>
       </el-row>
     </el-container>
@@ -34,16 +35,13 @@
 </template>
 
 <script setup lang="ts">
-import Editor from '@tinymce/tinymce-vue'
 import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
-import type { NoticeContentEditVO } from '@/types/Notice'
-import { EditNoticeContentAPi, SelectNoticeContentByIdAPI } from '@/service/NoticeController'
+import type { AboutJournalsVO } from '@/types/Aboutjournals'
+import { EditAboutJournalsAPI, SelectAboutJournalsAPI } from '@/service/AboutJournalsController'
 import Editors from '@/components/Editors.vue'
-const onMdChange = (v: string) => {
-  noticeMessage.value.comment = v;
-};
+
 interface Props {
   id: string
 }
@@ -52,38 +50,47 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => ''
 })
 
-const noticeMessage = ref<NoticeContentEditVO>({
-  comment: '',
-  name: '',
-  nid: ''
+const aboutJournalsMessage = ref<AboutJournalsVO>({
+  content: '',
+  status: 2,
+  jid: ''
 })
-const selectNoticeContent = async () => {
-  const res = await SelectNoticeContentByIdAPI(props.id)
+const onMdChange = (v: string) => {
+  aboutJournalsMessage.value.content = v;
+};
+
+// 根据id查询内容
+const selectAboutJournalsContent = async () => {
+  const res = await SelectAboutJournalsAPI({
+    jid: props.id,
+    status: 2 // 期刊目的
+  })
   if (res.code === 0) {
-    noticeMessage.value = res.data
+    aboutJournalsMessage.value = res.data
   }
 }
 
 // 保存内容
-const saveNotice = async () => {
+const saveAboutJournals = async () => {
   console.log(props.id)
-  const res = await EditNoticeContentAPi({
-    nid: props.id,
-    comment: noticeMessage.value.comment
+  const res = await EditAboutJournalsAPI({
+    jid: props.id,
+    content: aboutJournalsMessage.value.content,
+    status: 2
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改公告内容',
+      message: '成功修改期刊的期刊目的内容',
       type: 'success'
     })
     router.push({
-      path: '/back/notice/NoticeList'
+      path: '/back/journals/JournalsList'
     })
   }
 }
 
 onMounted(async () => {
-  await selectNoticeContent()
+  await selectAboutJournalsContent()
 })
 </script>
 

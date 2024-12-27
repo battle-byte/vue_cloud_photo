@@ -23,7 +23,7 @@
           </el-button>
           <template #tip>
             <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
-              封面图片选则尽量不要超过2MB
+              推荐比例 180(宽)∶139(高)
             </div>
           </template>
         </el-upload>
@@ -45,31 +45,11 @@
           <view style="padding-left: 50px"></view>
         </view>
       </el-form-item>
-      <!--      <el-form-item v-model="articleMessage.school" prop="school">-->
-      <!--        <span class="demonstration" style="padding-right: 10px; font-size: 18px">活动范围</span>-->
-      <!--        <el-radio-group v-model="articleMessage.school" style="font-size: 20px" class="ml-4">-->
-      <!--          <span class="demonstration" style="padding-right: 15px; font-size: 16px">公共</span>-->
-      <!--          <el-radio value="0"></el-radio>-->
 
-      <!--          <span class="demonstration" style="padding-right: 15px; font-size: 16px"-->
-      <!--            >山东交通学院</span-->
-      <!--          >-->
-      <!--          <el-radio value="1"></el-radio>-->
-
-      <!--          <span class="demonstration" style="padding-right: 15px; font-size: 16px"-->
-      <!--            >山东女子学院</span-->
-      <!--          >-->
-      <!--          <el-radio value="2"></el-radio>-->
-      <!--        </el-radio-group>-->
-      <!--      </el-form-item>-->
       <view style="display: flex; padding-top: 10px"></view>
       <el-form-item prop="activeAvatar" style="background-color: #e4e8f1">
         <div>
-          <el-image
-            style="width: 200px; height: 200px; padding-left: 5px"
-            :src="articleMessage.postAvatar"
-            fit="fill"
-          />
+          <el-image style="padding-left: 5px" :src="articleMessage.postAvatar" fit="fill" />
         </div>
       </el-form-item>
       <el-form-item prop="title">
@@ -87,57 +67,123 @@
           </el-button>
         </div>
       </el-form-item>
-
-      <el-form-item>
+      <el-form-item prop="intro">
         <div style="display: flex">
           <span style="padding-right: 10px; font-size: 18px">文章简介</span>
           <el-input v-model="articleMessage.intro" style="width: 1000px" placeholder="文章简介" />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
-      <!--      <el-form-item>-->
-      <!--        <div style="display: flex">-->
-      <!--          <span style="padding-right: 10px; font-size: 18px">文章作者</span>-->
-      <!--          <el-input-->
-      <!--            v-model="articleMessage.author"-->
-      <!--            style="width: 1000px"-->
-      <!--            placeholder="文章作者"-->
-      <!--          />-->
-      <!--          <view style="padding-right: 50px" />-->
-      <!--        </div>-->
-      <!--      </el-form-item>-->
-      <el-form-item>
+      <el-form-item prop="mainIntro">
+        <div style="display: flex">
+          <span style="padding-right: 10px; font-size: 18px">主要概括</span>
+          <el-input
+            v-model="articleMessage.mainIntro"
+            style="width: 1000px"
+            placeholder="主要概括"
+          />
+          <view style="padding-right: 50px" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="author">
+        <div style="display: flex">
+          <span style="padding-right: 10px; font-size: 18px">文章作者</span>
+          <el-input v-model="articleMessage.author" style="width: 1000px" placeholder="文章作者" />
+          <view style="padding-right: 50px" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="doi">
+        <div style="display: flex">
+          <span style="padding-right: 10px; font-size: 18px">DOI</span>
+          <el-input v-model="articleMessage.doi" style="width: 1000px" placeholder="DOI" />
+          <view style="padding-right: 50px" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="views">
         <div style="display: flex">
           <span style="padding-right: 10px; font-size: 18px">阅读量</span>
-          <el-input v-model.number="articleMessage.views" type="number" style="width: 1000px" placeholder="阅读量" />
+          <el-input
+            v-model.number="articleMessage.views"
+            type="number"
+            style="width: 1000px"
+            placeholder="阅读量"
+          />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="upload">
         <div style="display: flex">
           <span style="padding-right: 10px; font-size: 18px">下载量</span>
-          <el-input v-model.number="articleMessage.upload" type="number" style="width: 1000px" placeholder="下载量" />
+          <el-input
+            v-model.number="articleMessage.upload"
+            type="number"
+            style="width: 1000px"
+            placeholder="下载量"
+          />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="kuote">
         <div style="display: flex">
           <span style="padding-right: 10px; font-size: 18px">引用量</span>
-          <el-input v-model.number="articleMessage.kuote"  type="number" style="width: 1000px" placeholder="引用量" />
+          <el-input
+            v-model.number="articleMessage.kuote"
+            type="number"
+            style="width: 1000px"
+            placeholder="引用量"
+          />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="volume">
+        <div style="display: flex">
+          <span style="padding-right: 10px; font-size: 18px">期数</span>
+          <el-input
+            v-model.number="articleMessage.volume"
+            type="number"
+            style="width: 1000px"
+            placeholder="期数"
+          />
+          <view style="padding-right: 50px" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="model">
         <div style="display: flex">
           <span style="padding-right: 10px; font-size: 18px">收费模式</span>
-          <el-input v-model.number="articleMessage.model" style="width: 1000px" placeholder="收费模式" />
+          <el-input
+            v-model.number="articleMessage.model"
+            style="width: 1000px"
+            placeholder="收费模式"
+          />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="status">
         <div style="display: flex">
           <span style="padding-right: 10px; font-size: 18px">状态</span>
           <el-input v-model="articleMessage.status" style="width: 1000px" placeholder="状态" />
+          <view style="padding-right: 50px" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="buyaddr">
+        <div style="display: flex">
+          <span style="padding-right: 10px; font-size: 18px">购买外部链接</span>
+          <el-input
+            v-model="articleMessage.buyaddr"
+            style="width: 1000px"
+            placeholder="购买外部链接"
+          />
+          <view style="padding-right: 50px" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="logoaddr">
+        <div style="display: flex">
+          <span style="padding-right: 10px; font-size: 18px">logo外部链接</span>
+          <el-input
+            v-model="articleMessage.logoaddr"
+            style="width: 1000px"
+            placeholder="logo外部链接"
+          />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
@@ -185,32 +231,67 @@ const form = ref<InstanceType<typeof FormInstance>>()
 //表单校验规则
 const rules = {
   // 后端自动处理图片问题
-  title: [{ required: true, message: '文章标题不能为空', trigger: 'change' }],
+  title: [{ required: true, message: '不能为空', trigger: 'change' }],
   intro: [
     {
       required: true,
-      message: '文章简介不能为空',
+      message: '不能为空',
       trigger: 'change'
     }
   ],
   author: [
     {
       required: true,
-      message: '文章内容不能为空',
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  doi: [
+    {
+      required: true,
+      message: '不能为空',
       trigger: 'change'
     }
   ],
   model: [
     {
       required: true,
-      message: '活动所属范围不能为空',
+      message: '不能为空',
       trigger: 'change'
     }
   ],
   status: [
     {
       required: true,
-      message: '活动所属范围不能为空',
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  mainIntro: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  volume: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  buyaddr: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  logoaddr: [
+    {
+      required: true,
+      message: '不能为空',
       trigger: 'change'
     }
   ]
@@ -238,18 +319,7 @@ const getArticleOne = async () => {
   console.log('props.id', props.id)
   let res = await SelectArticleByIdAPI(props.id)
   if (res.code === 0) {
-    articleMessage.value.pid = res.data.pid
-    articleMessage.value.title = res.data.title
-    articleMessage.value.intro = res.data.intro
-    articleMessage.value.author = res.data.author
-    articleMessage.value.doi = res.data.doi
-    articleMessage.value.publishTime = res.data.publishTime
-    articleMessage.value.postAvatar = res.data.postAvatar
-    articleMessage.value.views = res.data.views
-    articleMessage.value.upload = res.data.upload
-    articleMessage.value.kuote = res.data.kuote
-    articleMessage.value.model = res.data.model
-    articleMessage.value.status = res.data.status
+    articleMessage.value = res.data
   }
   console.log(res.data)
 }
@@ -257,20 +327,7 @@ const getArticleOne = async () => {
 //
 const updateArticle = async () => {
   console.log(articleMessage.value)
-  const res = await EditArticleBaseAPI({
-    pid: articleMessage.value.pid,
-    title: articleMessage.value.title,
-    intro: articleMessage.value.intro,
-    author: articleMessage.value.author,
-    doi: articleMessage.value.doi,
-    publishTime: articleMessage.value.publishTime,
-    postAvatar: articleMessage.value.postAvatar,
-    views: articleMessage.value.views,
-    upload: articleMessage.value.upload,
-    kuote: articleMessage.value.kuote,
-    model: articleMessage.value.model,
-    status: articleMessage.value.status
-  })
+  const res = await EditArticleBaseAPI({ ...articleMessage.value })
   if (res.code == 0) {
     ElMessage.success('文章修改成功!')
     router.push({

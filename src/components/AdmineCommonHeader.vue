@@ -6,7 +6,7 @@
       </div>
       <el-row>
         <el-text style="color: #f2f2f2; margin-left: 150px; font-size: 30px;">
-          Open Exploration
+          Canadian Educational Science Press
         </el-text>
         <div>
           <el-dropdown>
@@ -26,13 +26,10 @@
 </template>
 <script setup lang="ts">
 import { Search, Menu } from '@element-plus/icons-vue'
-import { adminStore, tabClick, userStore } from '@/stores'
+import { tabClick, userStore } from '@/stores'
 import router from '@/router'
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import { handleEditAPI } from '@/service/AdminController'
-import { uploadImage } from '@/service/UpLoadFile'
-import type { updateUser } from '@/types/user'
+
 
 const dialogFormVisible = ref(false)
 //获取导航栏伸缩属性

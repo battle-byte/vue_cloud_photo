@@ -7,6 +7,13 @@ export type Index = {
   ucount?: number //下载数
   btitle?: string //大字标题
   ltitle?: string //小字标题
+  logo?: string //左上角logo
+  note?: string //备案信息
+  background?: string //大背景图
+  littlelogo?: string //底部小logo
+  registerurl?: string // 选择2  注册网址
+  logurl?:      string  // 选择2  登录网址
+  emailurl?:    string  // 选择3  邮箱网址
 }
 
 // IndexQueryVO 查询首页内容渲染
@@ -19,6 +26,13 @@ export type IndexQueryVO = {
   ucount?: number //下载数
   btitle?: string //大字标题
   ltitle?: string //小字标题
+  logo?: string //左上角logo
+  note?: string //备案信息
+  background?: string //大背景图
+  littlelogo?: string //底部小logo
+  registerurl?: string // 选择2  注册网址
+  logurl?:      string  // 选择2  登录网址
+  emailurl?:    string  // 选择3  邮箱网址
 }
 
 // IndexEditParam 首页内容修改
@@ -31,8 +45,11 @@ export type IndexEditParam = {
   ucount?: number //下载数
   btitle?: string //大字标题
   ltitle?: string //小字标题
+  logo?: string //左上角logo
+  note?: string //备案信息
+  background?: string //大背景图
+  littlelogo?: string //底部小logo
+  registerurl?: string // 选择2  注册网址
+  logurl?:      string  // 选择2  登录网址
+  emailurl?:    string  // 选择3  邮箱网址
 }
-
-
-
-

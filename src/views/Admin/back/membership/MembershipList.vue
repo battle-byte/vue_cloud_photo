@@ -3,14 +3,13 @@
     <!--对话框 用于确认是否删除对应页面-->
     <el-dialog
       v-model="deleteDialogFormVisible"
-      title="删除编委会成员"
+      title="删除合作伙伴"
       width="500"
       :before-close="handleClose"
     >
       <el-col>
-        <span>确认删除编委会成员</span>
-        <span>ID:{{ deleteEditorialId.eid }}</span>
-        <span>名称:{{ deleteEditorialId.eName }}</span>
+        <span>确认删除合作伙伴</span>
+        <span>ID:{{ deleteMembershipId.id }}</span>
       </el-col>
 
       <template #footer>
@@ -22,40 +21,31 @@
     </el-dialog>
 
     <div class="flex gap-4 mb-4">
-      <span style="padding-top: 5px">编委会成员ID</span>
+      <span style="padding-top: 5px">合作伙伴ID</span>
       <el-input
-        v-model="searchEditorial.eid"
+        v-model="searchMembership.id"
         style="width: 240px"
-        placeholder="请输入编委会ID"
+        placeholder="请输入合作伙伴ID"
         :suffix-icon="Search"
       />
-      <span style="padding-top: 5px">编委会成员名称</span>
-      <el-input
-        v-model="searchEditorial.eName"
-        style="width: 240px"
-        placeholder="编委会成员名称"
-        :prefix-icon="Search"
-      />
-      <el-button type="primary" @click="searchEditorialList">搜索</el-button>
+      <el-button type="primary" @click="searchMembershipList">搜索</el-button>
     </div>
 
     <div class="manage">
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="eid" label="ID" width="180" />
-        <el-table-column prop="eName" label="名称" width="180" />
-        <el-table-column prop="ePhoto" label="照片" width="200">
+        <el-table-column prop="id" label="ID" width="200" />
+        <el-table-column prop="url" label="合作伙伴路径" width="300" />
+        <el-table-column prop="img" label="合作伙伴图片" width="200">
           <template #default="scope">
-            <el-image :src="scope.row.ePhoto" style="width: 100px; height: 100px" />
+            <el-image :src="scope.row.img" style="width: 100px; height: 100px" />
           </template>
         </el-table-column>
-        <el-table-column prop="comment" label="简介" width="300" />
-        <el-table-column prop="sections" label="邮箱" width="400" />
         <el-table-column label="操作" width="500">
           <template #default="scope">
-            <el-button size="small" type="primary" @click="handleEditorialEdit(scope.row)"
-              >内容编辑
+            <el-button size="small" @click="handleMembershipBaseEdit(scope.row)"
+              >基础编辑
             </el-button>
             <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
           </template>
@@ -68,7 +58,7 @@
           :page-size="15"
           layout="prev, pager, next"
           :total="pageCount"
-          v-model:current-page="editorialPage.page"
+          v-model:current-page="membershipPage.page"
           @current-change="handlePage"
         />
       </div>
@@ -85,13 +75,13 @@ import type { PageParams } from '@/types/Pages'
 import { Calendar, Search } from '@element-plus/icons-vue'
 
 import router from '@/router'
-
 import type {
-  EditorialDeleteParam,
-  EditorialQueryByPageParam,
-  EditorialQueryVO
-} from '@/types/Editorial'
-import { deleteEditorialIdAPI, SelectEditorialByPageAPI } from '@/service/EditorialController'
+  MembershipDeleteShow,
+  MembershipQueryByPageParam,
+  MembershipQueryVO
+} from '@/types/Membership'
+import { deleteMembershipIdAPI, SelectMembershipByPageAPI } from '@/service/MembershipController'
+
 // 控制对话框是否打开
 const dialogFormVisible = ref(false)
 
@@ -99,50 +89,28 @@ const dialogFormVisible = ref(false)
 const pageCount = ref<number>(0)
 
 //分页查询页数
-const editorialPage = ref<PageParams>({
+const membershipPage = ref<PageParams>({
   page: 1,
   pageSize: 15
 })
 
 //搜索
-const searchEditorial = ref<EditorialQueryByPageParam>({})
+const searchMembership = ref<MembershipQueryByPageParam>({})
 
 //表格数据
-const tableData = ref<EditorialQueryVO[]>([])
-
-//编委会状态数据格式化  0 不发布 1已发布
-const resultFormatPublish = (value: number) => {
-  if (value == 1) {
-    return `已发布`
-  } else if (value == 0) {
-    return `未发布`
-  } else {
-    return '未知'
-  }
-}
-// 编委会状态品质状态
-const resultFormatPerfect = (value: number) => {
-  if (value == 1) {
-    return `精品编委会`
-  } else if (value == 0) {
-    return `普通编委会`
-  } else {
-    return '未知'
-  }
-}
+const tableData = ref<MembershipQueryVO[]>([])
 
 // 基础内容编辑
-const handleEditorialEdit = (editorialQueryAndPeriodicalVO: EditorialQueryVO) => {
+const handleMembershipBaseEdit = (membershipQueryAndPeriodicalVO: MembershipQueryVO) => {
   router.push({
-    path: `/back/editorial/EditorialUpdate/${editorialQueryAndPeriodicalVO.eid}`
+    path: `/back/membership/MembershipUpdate/${membershipQueryAndPeriodicalVO.id}`
   })
 }
 
 //获取用户信息
-const getEditorialList = async (page: number, pageSize: number) => {
-  const res = await SelectEditorialByPageAPI({
-    eid: searchEditorial.value.eid,
-    eName: searchEditorial.value.eName,
+const getMembershipList = async (page: number, pageSize: number) => {
+  const res = await SelectMembershipByPageAPI({
+    id: searchMembership.value.id,
     page: page,
     pageSize: pageSize
   })
@@ -150,7 +118,7 @@ const getEditorialList = async (page: number, pageSize: number) => {
     //将后端的内容添加到集合内
     tableData.value = res.data.records
     pageCount.value = res.data.total
-    ElMessage.success('已更新编委会数据')
+    ElMessage.success('已更新合作伙伴数据')
   } else {
   }
 }
@@ -174,39 +142,37 @@ const handleClose = (done: () => void) => {
       // catch error
     })
 }
-let deleteEditorialId = ref<EditorialDeleteParam>({
-  eid: '',
-  eName: ''
+let deleteMembershipId = ref<MembershipDeleteShow>({
+  id: ''
 })
 // 删除
-const handleDelete = (editorialQueryAndPeriodicalVO: EditorialQueryVO) => {
-  deleteEditorialId.value.eid = editorialQueryAndPeriodicalVO.eid!
-  deleteEditorialId.value.eName = editorialQueryAndPeriodicalVO.eName!
+const handleDelete = (membershipQueryAndPeriodicalVO: MembershipQueryVO) => {
+  deleteMembershipId.value.id = membershipQueryAndPeriodicalVO.id!
   deleteDialogFormVisible.value = true
 }
 
 //确认提交删除选项
 const submit = async () => {
   deleteDialogFormVisible.value = false
-  const res = await deleteEditorialIdAPI(deleteEditorialId.value.eid!)
+  const res = await deleteMembershipIdAPI(deleteMembershipId.value.id!)
   if (res.code == 0) {
     ElMessage.success('删除成功')
-     getEditorialList(editorialPage.value.page, editorialPage.value.pageSize)
+    getMembershipList(membershipPage.value.page, membershipPage.value.pageSize)
   }
 }
 
 //分页下标切换 重新进行分页查询
 const handlePage = (val: number) => {
-  getEditorialList(val, editorialPage.value.pageSize)
+  getMembershipList(val, membershipPage.value.pageSize)
 }
 
 onMounted(() => {
-  getEditorialList(1, 15)
+  getMembershipList(1, 15)
 })
 
 //模糊搜索
-const searchEditorialList = () => {
-  getEditorialList(editorialPage.value.page, editorialPage.value.pageSize)
+const searchMembershipList = () => {
+  getMembershipList(membershipPage.value.page, membershipPage.value.pageSize)
 }
 </script>
 

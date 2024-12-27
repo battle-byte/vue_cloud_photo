@@ -3,9 +3,8 @@ import type { ApiResponse } from '@/request/ApiResponse'
 import type { PageResult } from '@/types/Pages'
 import type {
   News,
-  NewsBaseEditParam,
+  NewsBaseEditParam, NewsContentEditDTO,
   NewsContentEditParam,
-  NewsContentEditVO,
   NewsQueryByPageParam,
   NewsQueryVO
 } from '@/types/News'
@@ -44,7 +43,7 @@ export const SaveNewsBaseAPI = (
 
 // SaveNewsBaseAPI 修改新闻核心内容
 export const EditNewsContentAPi = (
-  data: NewsContentEditVO
+  data: NewsContentEditDTO
 ): Promise<ApiResponse<string>> | Promise<never> => {
   return service.post(`/news/editNewsContent`, data)
 }

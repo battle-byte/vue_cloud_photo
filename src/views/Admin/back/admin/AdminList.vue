@@ -97,14 +97,14 @@
               size="small"
               type="danger"
               @click="handleBan(scope.row)"
-              v-if="scope.row.userRole == 0"
+              v-if="scope.row.userRole === 0"
               >封禁
             </el-button>
             <el-button
               size="small"
               type="success"
               @click="handleNotBan(scope.row)"
-              v-if="scope.row.userRole == 1"
+              v-if="scope.row.userRole === 1"
               >解禁
             </el-button>
             <el-button
@@ -170,10 +170,10 @@ const tableData = ref<UserVO[]>([])
 // 封禁
 const handleBan = async (userVO: UserVO) => {
   if (userVO.userRole == 1) {
-    ElMessage.error('该管理员被封禁')
+    ElMessage.error('该管理员已被封禁')
     return
   }
-  const res = await handleBanAPI(userVO.userAccount!)
+  const res = await handleBanAPI(userVO.uid!)
   if (res.code === 0) {
     getAdminList(noticePage.value.page, noticePage.value.pageSize)
   }
@@ -198,6 +198,7 @@ const getAdminList = async (page: number, pageSize: number) => {
     page: page,
     pageSize: pageSize
   })
+  console.log("res", res.data.records)
   if (res.code === 0) {
     //将后端的内容添加到集合内
     tableData.value = res.data.records

@@ -38,6 +38,11 @@ import JournalsForReviewersList from '@/views/Admin/back/journalsOther/forReview
 import JournalsForReviewersMake from '@/views/Admin/back/journalsOther/forReviewers/JournalsForReviewersMake.vue'
 import JournalsFocusList from '@/views/Admin/back/journalsOther/focus/JournalsFocusList.vue'
 import JournalsFocusMake from '@/views/Admin/back/journalsOther/focus/JournalsFocusMake.vue'
+import MakeAboutJournalsAimsAndScorePage from '@/views/Admin/back/aboutjournals/MakeAboutJournalsAimsAndScorePage.vue'
+import MembershipList from '@/views/Admin/back/membership/MembershipList.vue'
+import MembershipCreate from '@/views/Admin/back/membership/MembershipCreate.vue'
+import MembershipUpdate from '@/views/Admin/back/membership/MembershipUpdate.vue'
+import { userStore } from '@/stores'
 // createRouter创建路由实例
 // 配置history模式
 // 1. history模式：createWebHistory 地址栏不带#
@@ -95,7 +100,8 @@ const router = createRouter({
           props: true,
           component: JournalsUpdate
         },
-        { // 期刊添加文章
+        {
+          // 期刊添加文章
           path: '/back/journals/JournalsArticle/:id',
           name: 'JournalsAddArticleList',
           props: true,
@@ -202,7 +208,7 @@ const router = createRouter({
           props: true,
           component: TeamUpdate
         },
-        // 编委会
+        ///////// 编委会
         {
           // 编委会列表
           path: '/back/editorial/EditorialList',
@@ -222,7 +228,7 @@ const router = createRouter({
           props: true,
           component: EditorialUpdate
         },
-        // 新闻
+        /////////// 新闻
         {
           // 新闻列表
           path: '/back/news/NewsList',
@@ -249,7 +255,27 @@ const router = createRouter({
           props: true,
           component: MakeNewsPage
         },
-        // 公告
+        /////////// 伙伴关系
+        {
+          // 伙伴关系列表
+          path: '/back/membership/MembershipList',
+          name: 'MembershipList',
+          component: MembershipList
+        },
+        {
+          //伙伴关系创建
+          path: '/back/membership/MembershipCreate',
+          name: 'MembershipCreate',
+          component: MembershipCreate
+        },
+        {
+          // 伙伴关系基础信息修改
+          path: '/back/membership/MembershipUpdate/:id',
+          name: 'MembershipUpdate',
+          props: true,
+          component: MembershipUpdate
+        },
+        ///////////////////// 公告
         {
           // 公告列表
           path: '/back/notice/NoticeList',
@@ -270,7 +296,7 @@ const router = createRouter({
           name: 'IndexUpdate',
           component: IndexUpdate
         },
-        // 作者须知 和 关于期刊
+        // 作者须知 和 关于期刊 期刊目的
         {
           // 关于期刊
           path: '/back/aboutJournals/MakeAboutJournalsPage/:id',
@@ -284,6 +310,13 @@ const router = createRouter({
           name: 'MakeAboutJournalsAuthorPage',
           props: true,
           component: MakeAboutJournalsAuthorPage
+        },
+        {
+          // 期刊目的
+          path: '/back/aboutJournals/MakeAboutJournalsAimsAndScorePage/:id',
+          name: 'MakeAboutJournalsAimsAndScorePage',
+          props: true,
+          component: MakeAboutJournalsAimsAndScorePage
         },
         // 用户提交信息
         {
@@ -313,6 +346,25 @@ const router = createRouter({
       component: LoginPage
     }
   ]
+})
+
+// 路由守卫
+router.beforeEach((to, form, next) => {
+  const user = userStore()
+  //token不存在就跳转到登录页面
+  const userToken = user.user?.token
+  if (!userToken && !userToken && to.name === 'login') {
+    //管理员和用户token不存在并且页面是login 不跳转
+    next()
+    return
+  } else if (!userToken && !userToken && to.name !== 'login') {
+    //管理员和用户token不存在 并且页面不是登录页面 跳转到登录页面
+    next('/login')
+    return
+  } else {
+    // 其他情况不跳转
+    next()
+  }
 })
 
 export default router

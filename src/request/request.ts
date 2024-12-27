@@ -3,8 +3,11 @@ import { ElMessage } from 'element-plus'
 import { userStore } from '@/stores'
 import router from '@/router'
 //请求路径
-// const baseURL = 'https://39.105.222.205:8101/api'
-const baseURL = 'http://localhost:8101/api'
+// const baseURL = 'https://172.24.52.132:8102/api'
+// const baseURL = 'https://43.130.10.149:8101/api'
+// const baseURL = 'http://43.130.10.149:8101/api'
+// const baseURL = 'http://localhost:8101/api'
+const baseURL = 'https://edsciencepress.com:8080/api' //上线使用
 // const baseURL = 'https://dream-nova.com/api' //上线使用
 
 //创建axios实例
