@@ -22,6 +22,7 @@
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="jid" label="ID" width="180" />
         <el-table-column prop="journalsName" label="期刊名称" width="200" />
         <el-table-column label="About" width="200">

@@ -1,14 +1,17 @@
 import service from '@/request/request'
 import type { ApiResponse } from '@/request/ApiResponse'
 import type {
+  ArticleArchivist,
   ArticleBaseEditParam,
   ArticleContentEditParam,
   ArticleContentEditVO,
+  ArticlePdf,
   ArticlePerfect,
   ArticlePublish,
   ArticleQueryAndPeriodicalVO,
   ArticleQueryByPageParam,
-  ArticleQueryVO
+  ArticleQueryVO,
+  ArticleWord
 } from '@/types/Article'
 import type { PageResult } from '@/types/Pages'
 
@@ -40,7 +43,21 @@ export const SetArticlePerfectAPI = (
   return service.post(`/article/perfect`, data)
 }
 
-// 取消精品 SetArticleNotPublish
+// 发布文章 SetArticleNotPublish
+export const SetArticleArchivistAPI = (
+  data: ArticleArchivist
+): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/article/archivist`, data)
+}
+
+// 取消归档 SetArticlePublish
+export const SetArticleNotArchivistAPI = (
+  data: ArticleArchivist
+): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/article/canclearchivist`, data)
+}
+
+// 设为归档 SetArticleNotPublish
 export const SetArticleNotPerfectAPI = (
   data: ArticlePerfect
 ): Promise<ApiResponse<string>> | Promise<never> => {
@@ -84,4 +101,13 @@ export const SaveArticleBaseAPI = (
 // deleteArticleIdAPI 删除期刊
 export const deleteArticleIdAPI = (id: string): Promise<ApiResponse<string>> | Promise<never> => {
   return service.get(`/article/delete/${id}`)
+}
+
+// UploadPdfAPI 上传PDF
+export const UploadPdfAPI = (data: ArticlePdf): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/article/uploadPdf`, data)
+}
+// UploadPdfAPI 上传PDF
+export const UploadWordAPI = (data: ArticleWord): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/article/uploadWord`, data)
 }

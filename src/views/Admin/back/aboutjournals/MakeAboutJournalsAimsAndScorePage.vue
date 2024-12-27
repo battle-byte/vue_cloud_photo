@@ -1,14 +1,15 @@
 <template>
   <view style="height: 100%; width: 100%">
-    <el-button type="primary" @click="saveNews()" style="margin-bottom: 10px"
+    <el-button type="primary" @click="saveAboutJournals()" style="margin-bottom: 10px"
       >save the article
     </el-button>
-    <div>正在编辑新闻: {{ props.id }} 标题:{{ newsMessageParam.title }}</div>
+    <div>文章目的</div>
+    <div>正在编辑期刊: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
     <el-container style="height: 100%">
       <el-row style="height: 4000px; width: 847.5px">
         <main id="sample" class="item" style="width: 847.5px">
           <Editors
-            :value="newsMessageParam.content"
+            :value="aboutJournalsMessage.content"
             :handle-change="onMdChange"
             @updateValue="onMdChange"
           >
@@ -26,7 +27,7 @@
             border-radius: 10px;
           "
         >
-          <ShowText :value="newsMessageParam.content"></ShowText>
+          <div v-html="aboutJournalsMessage.content"></div>
         </view>
       </el-row>
     </el-container>
@@ -34,18 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import Editor from '@tinymce/tinymce-vue'
 import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
-import type { NewsContentEditDTO, NewsContentEditParam } from '@/types/News'
-import { EditNewsContentAPi, SelectNewsContentByIdAPI } from '@/service/NewsController'
+import type { AboutJournalsVO } from '@/types/Aboutjournals'
+import { EditAboutJournalsAPI, SelectAboutJournalsAPI } from '@/service/AboutJournalsController'
 import Editors from '@/components/Editors.vue'
-import ShowText from '@/components/ShowText.vue'
-
-const onMdChange = (v: string) => {
-  newsMessageParam.value.content = v
-}
 
 interface Props {
   id: string
@@ -55,48 +50,47 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => ''
 })
 
-// 传参泛型
-const newsMessageParam = ref<NewsContentEditParam>({
+const aboutJournalsMessage = ref<AboutJournalsVO>({
   content: '',
-  title: '',
-  nid: ''
+  status: 2,
+  jid: ''
 })
-// 接收泛型
-const newsMessage = ref<NewsContentEditDTO>({
-  content: { String: '', Valid: false },
-  title: '',
-  nid: ''
-})
-const selectNewsContent = async () => {
-  const res = await SelectNewsContentByIdAPI(props.id)
+const onMdChange = (v: string) => {
+  aboutJournalsMessage.value.content = v;
+};
+
+// 根据id查询内容
+const selectAboutJournalsContent = async () => {
+  const res = await SelectAboutJournalsAPI({
+    jid: props.id,
+    status: 2 // 期刊目的
+  })
   if (res.code === 0) {
-    newsMessageParam.value = res.data
+    aboutJournalsMessage.value = res.data
   }
 }
 
 // 保存内容
-const saveNews = async () => {
+const saveAboutJournals = async () => {
   console.log(props.id)
-  const res = await EditNewsContentAPi({
-    nid: props.id,
-    content: {
-      String: newsMessageParam.value.content!,
-      Valid: true
-    }
+  const res = await EditAboutJournalsAPI({
+    jid: props.id,
+    content: aboutJournalsMessage.value.content,
+    status: 2
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改新闻内容',
+      message: '成功修改期刊的期刊目的内容',
       type: 'success'
     })
     router.push({
-      path: '/back/news/NewsList'
+      path: '/back/journals/JournalsList'
     })
   }
 }
 
 onMounted(async () => {
-  await selectNewsContent()
+  await selectAboutJournalsContent()
 })
 </script>
 

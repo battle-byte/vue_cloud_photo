@@ -43,6 +43,7 @@
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="eid" label="ID" width="180" />
         <el-table-column prop="eName" label="名称" width="180" />
         <el-table-column prop="ePhoto" label="照片" width="200">
@@ -50,8 +51,8 @@
             <el-image :src="scope.row.ePhoto" style="width: 100px; height: 100px" />
           </template>
         </el-table-column>
-        <el-table-column prop="sections" label="评价" width="400" />
         <el-table-column prop="comment" label="简介" width="300" />
+        <el-table-column prop="sections" label="邮箱" width="400" />
         <el-table-column label="操作" width="500">
           <template #default="scope">
             <el-button size="small" type="primary" @click="handleEditorialEdit(scope.row)"

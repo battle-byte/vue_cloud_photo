@@ -18,6 +18,13 @@ export type Article = {
   isPublish?: number //文章状态  0 发布 1不发布
   perfect?: number //精选文章  0不是 1是
   isDelete?: number //是否删除 0不删 1删
+  pdf?: string
+  word?: string
+  mainIntro?: string // 摘要概括
+  volume?: number // 第几期
+  buyaddr?: number // 购买跳转地址
+  logoaddr?: number // logo跳转地址
+  archivist?: number // 是否归档 0不归档 1归档
 }
 
 // 修改文章泛型
@@ -35,6 +42,11 @@ export type UpdateArticle = {
   kuote?: number // 引用量
   model?: string // 收费模式
   status?: string // 状态 类型
+  mainIntro?: string // 摘要概括
+  volume?: number // 第几期
+  buyaddr?: number // 购买跳转地址
+  logoaddr?: number // logo跳转地址
+  archivist?: number // 是否归档 0不归档 1归档
 }
 
 // 设置文章基础泛型
@@ -58,6 +70,13 @@ export type ArticleQueryAndPeriodicalVO = {
   isPublish?: number //文章状态  0 发布 1不发布
   perfect?: number //精选文章  0不是 1是
   isDelete?: number //是否删除 0不删 1删
+  pdf?: string
+  word?: string
+  mainIntro?: string // 摘要概括
+  volume?: number // 第几期
+  buyaddr?: number // 购买跳转地址
+  logoaddr?: number // logo跳转地址
+  archivist?: number // 是否归档 0不归档 1归档
 }
 // 搜索文章
 export type ArticleQueryByPageParam = {
@@ -74,6 +93,12 @@ export type ArticleQueryByPageParam = {
 export type ArticlePublish = {
   pid?: string
   isPublish?: number //文章状态  0 发布 1不发布
+}
+
+// 修改文章发布状态泛型
+export type ArticleArchivist = {
+  pid?: string
+  archivist?: number //文章状态  0 发布 1不发布
 }
 
 // 修改文章精品泛型
@@ -96,6 +121,13 @@ export type ArticleQueryVO = {
   kuote?: number // 引用量
   model?: string // 收费模式
   status?: string // 状态 类型
+  pdf?: string
+  word?: string
+  mainIntro?: string // 摘要概括
+  volume?: number // 第几期
+  buyaddr?: number // 购买跳转地址
+  logoaddr?: number // logo跳转地址
+  archivist?: number // 是否归档 0不归档 1归档
 }
 
 // 修改文章基础内容泛型
@@ -112,6 +144,11 @@ export type ArticleBaseEditParam = {
   kuote?: number // 引用量
   model?: string // 收费模式
   status?: string // 状态 类型
+  mainIntro?: string // 摘要概括
+  volume?: number // 第几期
+  buyaddr?: number // 购买跳转地址
+  logoaddr?: number // logo跳转地址
+  archivist?: number // 是否归档 0不归档 1归档
 }
 // 查询文章内容泛型
 export type ArticleContentEditVO = {
@@ -130,4 +167,15 @@ export type ArticleContentEditParam = {
 export type ArticleContentDeleteParam = {
   pid?: string
   title?: string // 标题
+}
+// 上传文章pdf 或者word版本
+export type ArticleWord = {
+  pid?: string
+  word?: string
+}
+
+// 上传文章pdf 或者word版本
+export type ArticlePdf = {
+  pid?: string
+  pdf?: string
 }

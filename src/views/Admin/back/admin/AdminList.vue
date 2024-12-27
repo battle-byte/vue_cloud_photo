@@ -82,6 +82,7 @@
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="uid" label="ID" width="200" />
         <el-table-column prop="userAccount" label="管理员账号" width="400" />
         <el-table-column prop="userRole" label="管理员身份" width="150">
@@ -97,14 +98,14 @@
               size="small"
               type="danger"
               @click="handleBan(scope.row)"
-              v-if="scope.row.userRole == 0"
+              v-if="scope.row.userRole === 0"
               >封禁
             </el-button>
             <el-button
               size="small"
               type="success"
               @click="handleNotBan(scope.row)"
-              v-if="scope.row.userRole == 1"
+              v-if="scope.row.userRole === 1"
               >解禁
             </el-button>
             <el-button
@@ -170,10 +171,10 @@ const tableData = ref<UserVO[]>([])
 // 封禁
 const handleBan = async (userVO: UserVO) => {
   if (userVO.userRole == 1) {
-    ElMessage.error('该管理员被封禁')
+    ElMessage.error('该管理员已被封禁')
     return
   }
-  const res = await handleBanAPI(userVO.userAccount!)
+  const res = await handleBanAPI(userVO.uid!)
   if (res.code === 0) {
     getAdminList(noticePage.value.page, noticePage.value.pageSize)
   }
@@ -198,6 +199,7 @@ const getAdminList = async (page: number, pageSize: number) => {
     page: page,
     pageSize: pageSize
   })
+  console.log("res", res.data.records)
   if (res.code === 0) {
     //将后端的内容添加到集合内
     tableData.value = res.data.records

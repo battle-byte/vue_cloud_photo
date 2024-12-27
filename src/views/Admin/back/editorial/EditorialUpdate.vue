@@ -23,7 +23,7 @@
           </el-button>
           <template #tip>
             <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
-              成员照片选则尽量不要超过2MB
+              建议宽高比例 88:135
             </div>
           </template>
         </el-upload>
@@ -32,7 +32,7 @@
       <el-form-item prop="editorialPhoto" style="background-color: #e4e8f1">
         <div>
           <el-image
-            style="width: 200px; height: 200px; padding-left: 5px"
+            style=" padding-left: 5px"
             :src="editorialMessage.ePhoto"
             fit="fill"
           />

@@ -19,7 +19,7 @@
           </el-button>
           <template #tip>
             <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
-              成员照片选则尽量不要超过2MB
+              推荐比例 127(宽) : 154(高)
             </div>
           </template>
         </el-upload>
@@ -28,7 +28,7 @@
       <el-form-item prop="teamPhoto" style="background-color: #e4e8f1">
         <div>
           <el-image
-            style="width: 200px; height: 200px; padding-left: 5px"
+            style="width: 127px; height: 154px;  padding-left: 5px"
             :src="teamMessage.tPhoto"
             fit="fill"
           />

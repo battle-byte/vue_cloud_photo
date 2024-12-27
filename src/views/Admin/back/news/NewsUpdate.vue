@@ -19,11 +19,11 @@
           :multiple="false"
         >
           <el-button style="padding-bottom: 15px; width: 200px" type="primary"
-            >新闻照片照片上传
+            >新闻照片上传
           </el-button>
           <template #tip>
             <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
-              新闻照片选则尽量不要超过2MB
+              推荐比例 165(宽)∶127高)
             </div>
           </template>
         </el-upload>
@@ -47,7 +47,7 @@
       <el-form-item prop="newsPhoto" style="background-color: #e4e8f1">
         <div>
           <el-image
-            style="width: 200px; height: 200px; padding-left: 5px"
+            style=" padding-left: 5px"
             :src="newsMessage.photo"
             fit="fill"
           />

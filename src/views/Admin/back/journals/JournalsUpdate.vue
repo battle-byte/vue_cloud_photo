@@ -15,11 +15,45 @@
           :multiple="false"
         >
           <el-button style="padding-bottom: 15px; width: 200px" type="primary"
-            >封面图片上传
+            >首页长条封面图片上传
           </el-button>
           <template #tip>
             <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
-              封面图片选则尽量不要超过2MB
+              推荐比例:340(宽) × 76(高)
+            </div>
+          </template>
+        </el-upload>
+        <el-upload
+          class="upload-demo"
+          :limit="1"
+          :show-file-list="false"
+          :http-request="addBigPhoto"
+          :multiple="false"
+          style="margin-left: 20px"
+        >
+          <el-button style="padding-bottom: 15px; width: 200px" type="primary"
+            >大背景图片上传
+          </el-button>
+          <template #tip>
+            <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
+              推荐比例:840(宽) × 360(高)
+            </div>
+          </template>
+        </el-upload>
+        <el-upload
+          class="upload-demo"
+          :limit="1"
+          :show-file-list="false"
+          :http-request="addSmallPhoto"
+          :multiple="false"
+          style="margin-left: 40px"
+        >
+          <el-button style="padding-bottom: 15px; width: 200px" type="primary"
+            >小封面图片上传
+          </el-button>
+          <template #tip>
+            <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
+              推荐比例:150(宽) × 220(高)
             </div>
           </template>
         </el-upload>
@@ -43,8 +77,26 @@
       <el-form-item prop="journalsPhoto" style="background-color: #e4e8f1">
         <div>
           <el-image
-            style="width: 200px; height: 200px; padding-left: 5px"
+            style="width: 345px; height: 76px; padding-left: 5px"
             :src="journalsMessage.journalsPhoto"
+            fit="fill"
+          />
+        </div>
+      </el-form-item>
+      <el-form-item prop="bigImage" style="background-color: #e4e8f1">
+        <div>
+          <el-image
+            style="width: 847.5px; height: 358.8px; padding-left: 5px"
+            :src="journalsMessage.bigImage"
+            fit="fill"
+          />
+        </div>
+      </el-form-item>
+      <el-form-item prop="smallImage" style="background-color: #e4e8f1">
+        <div>
+          <el-image
+            style="width: 157.5px; height: 217.73px; padding-left: 5px"
+            :src="journalsMessage.smallImage"
             fit="fill"
           />
         </div>
@@ -71,8 +123,8 @@
 
       <el-form-item prop="elssn">
         <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">ELSSN</span>
-          <el-input v-model="journalsMessage.elssn" style="width: 1000px" placeholder="ELSSN" />
+          <span style="padding-right: 10px; font-size: 18px">ISSN</span>
+          <el-input v-model="journalsMessage.elssn" style="width: 1000px" placeholder="ISSN" />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
@@ -135,6 +187,13 @@
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
+      <el-form-item prop="email">
+        <div style="display: flex">
+          <span style="padding-right: 10px; font-size: 18px">Email</span>
+          <el-input v-model="journalsMessage.email" style="width: 1000px" placeholder="Email" />
+          <view style="padding-right: 50px" />
+        </div>
+      </el-form-item>
     </el-form>
   </view>
 </template>
@@ -173,6 +232,46 @@ const addPhoto = async (files: any) => {
     journalsMessage.value.journalsPhoto! = res.data
     ElMessage({
       message: '上传成功,请耐心等待加载中',
+      type: 'success'
+    })
+  } else {
+    ElMessage({
+      message: res.message,
+      type: 'error'
+    })
+  }
+}
+
+const addBigPhoto = async (files: any) => {
+  let fromData = new FormData()
+  fromData.append('file', files.file)
+
+  let res = await uploadImage(fromData) // 上传到云服务器
+  if (res.code === 0) {
+    // urls.value.push(res.data)
+    journalsMessage.value.bigImage! = res.data
+    ElMessage({
+      message: '上传大背景图成功,请耐心等待加载中',
+      type: 'success'
+    })
+  } else {
+    ElMessage({
+      message: res.message,
+      type: 'error'
+    })
+  }
+}
+
+const addSmallPhoto = async (files: any) => {
+  let fromData = new FormData()
+  fromData.append('file', files.file)
+
+  let res = await uploadImage(fromData) // 上传到云服务器
+  if (res.code === 0) {
+    // urls.value.push(res.data)
+    journalsMessage.value.smallImage! = res.data
+    ElMessage({
+      message: '上传小封面图成功,请耐心等待加载中',
       type: 'success'
     })
   } else {
@@ -254,6 +353,34 @@ const rules = {
       message: '不能为空',
       trigger: 'change'
     }
+  ],
+  journalsPhoto: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  bigImage: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  smallImage: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
+  ],
+  email: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
   ]
 }
 
@@ -287,6 +414,7 @@ const getJournalsOne = async () => {
   let res = await SelectJournalsByIdAPI(props.id)
   if (res.code === 0) {
     journalsMessage.value = res.data
+    console.log(res.data)
   }
 }
 

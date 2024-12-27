@@ -4,7 +4,7 @@
     <el-col :span="6" :offset="3" class="form" v-if="!isRegister">
       <el-form :rules="rules" :model="formModel" ref="form" size="large" autocomplete="off">
         <el-form-item>
-          <h3>登录</h3>
+          <h3>Login</h3>
         </el-form-item>
         <el-form-item prop="userAccount">
           <el-input
@@ -12,7 +12,7 @@
             minlength="5"
             v-model="formModel.userAccount"
             :prefix-icon="User"
-            placeholder="请输入用户名"
+            placeholder="User Account"
             onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
           ></el-input>
         </el-form-item>
@@ -22,7 +22,7 @@
             name="password"
             :prefix-icon="Lock"
             type="password"
-            placeholder="请输入密码"
+            placeholder="PassWord"
             maxlength="15"
             minlength="6"
           ></el-input>
@@ -32,7 +32,7 @@
             v-model="formModel.code"
             style="width: 180px"
             name="code"
-            placeholder="请输入验证码"
+            placeholder="Code"
             maxlength="4"
           ></el-input>
           <img
@@ -43,14 +43,14 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="loginIn(form)" class="button" type="primary" auto-insert-space>
-            登录
+            login
           </el-button>
           <el-button
             @click="goToRegister()"
             type="primary"
             link
             style="border: none; margin-left: 0px"
-            >没有账号?去注册
+            >no have account? register
           </el-button>
         </el-form-item>
         <!--        <el-form-item class="flex">-->
@@ -69,7 +69,7 @@
         autocomplete="off"
       >
         <el-form-item>
-          <h3>注册</h3>
+          <h3>Register</h3>
         </el-form-item>
         <el-form-item prop="userAccount">
           <el-input
@@ -78,7 +78,7 @@
             v-model="registerFormModel.userAccount"
             :prefix-icon="User"
             onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
-            placeholder="请输入用户名"
+            placeholder="UserName"
           ></el-input>
         </el-form-item>
         <el-form-item prop="userPassword">
@@ -87,7 +87,7 @@
             name="password"
             :prefix-icon="Lock"
             type="password"
-            placeholder="请输入密码"
+            placeholder="PassWord"
             maxlength="15"
             minlength="6"
           ></el-input>
@@ -98,7 +98,7 @@
             name="password"
             :prefix-icon="Lock"
             type="password"
-            placeholder="请再次输入密码"
+            placeholder="PassWord Again"
             maxlength="15"
             minlength="6"
           ></el-input>
@@ -108,16 +108,16 @@
             v-model="registerFormModel.code"
             style="width: 250px"
             name="code"
-            placeholder="请输入管理员提供的临时验证码"
+            placeholder="Admin Verification Code"
             maxlength="20"
           ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="registerIn(form)" class="button" type="primary" auto-insert-space>
-            注册
+            register
           </el-button>
           <el-button @click="goToLogin()" type="primary" link style="border: none; margin-left: 0px"
-            >已有账号?去登录
+            >have account? login
           </el-button>
         </el-form-item>
         <!--        <el-form-item class="flex">-->
@@ -138,7 +138,7 @@ import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 import { getCaptchaAPI } from '@/service/CaptchaController'
 import type { captcha } from '@/types/Captcha'
-import { adminStore } from '@/stores/admin'
+
 import { useRouter } from 'vue-router'
 import router from '@/router'
 import { userStore } from '@/stores'
@@ -162,7 +162,7 @@ const getCaptcha = async () => {
 
 //登录表单校验
 const formModel = ref<adminLogin>({
-  userAccount: 'Admin',
+  userAccount: '',
   userPassword: '',
   code: '',
   uuid: ''

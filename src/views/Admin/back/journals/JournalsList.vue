@@ -36,10 +36,10 @@
         placeholder="期刊标题"
         :prefix-icon="Search"
       />
-      <span style="padding-top: 5px">期刊审核状态</span>
+      <span style="padding-top: 5px">期刊发布状态</span>
       <el-select
         v-model="searchJournals.isPublish"
-        placeholder="选择应用审核状态"
+        placeholder="选择应用期刊发布状态"
         style="width: 240px"
       >
         <el-option
@@ -57,14 +57,16 @@
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="jid" label="ID" width="180" />
         <el-table-column prop="journalsName" label="期刊名称" width="200" />
-        <el-table-column prop="elssn" label="ELSSN" width="180" />
+        <el-table-column prop="elssn" label="ISSN" width="180" />
+        <el-table-column prop="email" label="email" width="180" />
         <!--        <el-table-column prop="content" label="期刊简介" />-->
         <el-table-column prop="eic" label="EIC" width="200" />
-        <el-table-column prop="journalsPhoto" label="封面图" width="200">
+        <el-table-column prop="journalsPhoto" label="封面图" width="400">
           <template #default="scope">
-            <el-image :src="scope.row.journalsPhoto" style="width: 100px; height: 100px" />
+            <el-image :src="scope.row.journalsPhoto" style="width: 345px; height: 100px" />
           </template>
         </el-table-column>
         <el-table-column prop="frequency" label="Frequency" width="150" />
@@ -81,24 +83,41 @@
             <span v-html="resultFormatPublish(scope.row.isPublish)"> </span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="600">
+        <el-table-column prop="isPublish" label="类型" width="150">
           <template #default="scope">
-            <el-button size="small"  @click="handleEdit(scope.row)"
-              >内容编辑
-            </el-button>
+            <span v-html="resultFormatPublishType(scope.row.type)"> </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="800">
+          <template #default="scope">
+            <el-button size="small" @click="handleEdit(scope.row)">内容编辑</el-button>
             <el-button
               size="small"
               type="warning"
               @click="SetJournalsNotPublish(scope.row)"
               v-if="scope.row.isPublish == 1"
-            >下架文章
+              >下架期刊
             </el-button>
             <el-button
               size="small"
               type="success"
               @click="SetJournalsPublish(scope.row)"
               v-if="scope.row.isPublish == 0"
-            >发布文章
+              >发布期刊
+            </el-button>
+            <el-button
+              size="small"
+              type="warning"
+              @click="SetJournalsTypeJournal(scope.row)"
+              v-if="scope.row.type == 1"
+              >设为期刊
+            </el-button>
+            <el-button
+              size="small"
+              type="success"
+              @click="SetJournalsTypeBook(scope.row)"
+              v-if="scope.row.type == 0"
+              >设为书籍
             </el-button>
             <el-button size="small" type="primary" @click="handleAddJournals(scope.row)"
               >添加文章
@@ -106,7 +125,21 @@
             <el-button size="small" type="primary" @click="handleAddEditorial(scope.row)"
               >添加编辑
             </el-button>
-
+            <el-button size="small" type="info" @click="handleMakeAboutJournalsPage(scope.row)"
+              >关于期刊
+            </el-button>
+            <el-button
+              size="small"
+              type="info"
+              @click="handleMakeAboutJournalsAuthorPage(scope.row)"
+              >作者须知
+            </el-button>
+            <el-button
+              size="small"
+              type="info"
+              @click="handleMakeAboutJournalsAimAndScorePage(scope.row)"
+              >文章目的
+            </el-button>
             <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -142,9 +175,13 @@ import {
   deleteJournalsIdAPI,
   SelectJournalsByPageAPI,
   SetJournalsNotPublishAPI,
-  SetJournalsPublishAPI
+  SetJournalsPublishAPI,
+  SetJournalsTypeBookAPI,
+  SetJournalsTypeJournalAPI
 } from '@/service/JournalsController'
 import router from '@/router'
+import MakeAboutJournalsPage from '@/views/Admin/back/aboutjournals/MakeAboutJournalsPage.vue'
+import MakeAboutJournalsAuthorPage from '@/views/Admin/back/aboutjournals/MakeAboutJournalsAuthorPage.vue'
 
 //分页下标
 const pageCount = ref<number>(0)
@@ -167,6 +204,17 @@ const resultFormatPublish = (value: number) => {
     return `已发布`
   } else if (value == 0) {
     return `未发布`
+  } else {
+    return '未知'
+  }
+}
+
+//期刊状态数据格式化  0 不发布 1已发布
+const resultFormatPublishType = (value: number) => {
+  if (value == 1) {
+    return `书籍`
+  } else if (value == 0) {
+    return `期刊`
   } else {
     return '未知'
   }
@@ -220,6 +268,38 @@ const SetJournalsPublish = async (journalsQueryVO: JournalsQueryVO) => {
   }
 }
 
+//设为期刊 SetJournalsTypeJournal
+const SetJournalsTypeJournal = async (journalsQueryVO: JournalsQueryVO) => {
+  if (journalsQueryVO.type == 0) {
+    ElMessage.error('类型已经是期刊了')
+    return
+  }
+  const res = await SetJournalsTypeJournalAPI({
+    jid: journalsQueryVO.jid,
+    type: 0
+  })
+  if (res.code === 0) {
+    //解封成功刷新期刊当页期刊信息
+    getJournalsList(JournalsPage.value.page, JournalsPage.value.page)
+  }
+}
+
+//设为书籍 SetJournalsTypeBook
+const SetJournalsTypeBook = async (journalsQueryVO: JournalsQueryVO) => {
+  if (journalsQueryVO.type == 1) {
+    ElMessage.error('类型已经是书籍了')
+    return
+  }
+  const res = await SetJournalsTypeBookAPI({
+    jid: journalsQueryVO.jid,
+    type: 1
+  })
+  if (res.code === 0) {
+    //解封成功刷新期刊当页期刊信息
+    getJournalsList(JournalsPage.value.page, JournalsPage.value.page)
+  }
+}
+
 // 编辑内容
 const handleEdit = (journalsQueryVO: JournalsQueryVO) => {
   router.push({
@@ -239,6 +319,28 @@ const handleAddEditorial = (journalsQueryVO: JournalsQueryVO) => {
     path: `/back/journals/JournalsAddEditorial/${journalsQueryVO.jid}`
   })
 }
+
+// 关于期刊
+const handleMakeAboutJournalsPage = (journalsQueryVO: JournalsQueryVO) => {
+  router.push({
+    path: `/back/aboutJournals/MakeAboutJournalsPage/${journalsQueryVO.jid}`
+  })
+}
+
+// 作者须知
+const handleMakeAboutJournalsAuthorPage = (journalsQueryVO: JournalsQueryVO) => {
+  router.push({
+    path: `/back/aboutJournals/MakeAboutJournalsAuthorPage/${journalsQueryVO.jid}`
+  })
+}
+
+// 作者须知
+const handleMakeAboutJournalsAimAndScorePage = (journalsQueryVO: JournalsQueryVO) => {
+  router.push({
+    path: `/back/aboutJournals/MakeAboutJournalsAimsAndScorePage/${journalsQueryVO.jid}`
+  })
+}
+
 
 // 控制对话框是否打开
 const deleteDialogFormVisible = ref(false)

@@ -3,12 +3,14 @@ import type { ApiResponse } from '@/request/ApiResponse'
 import type { PageResult } from '@/types/Pages'
 import type {
   Journals,
-  JournalsAddArticleParam, JournalsAddEditorialParam,
+  JournalsAddArticleParam,
+  JournalsAddEditorialParam,
   JournalsEditParam,
   JournalsPublishParam,
   JournalsQueryByPageParam,
-  JournalsQueryVO, JournalsRemoveEditorialParam,
-  JournalsSaveParam
+  JournalsQueryVO,
+  JournalsRemoveEditorialParam,
+  JournalsSaveParam, JournalsTypeParam
 } from '@/types/Journals'
 import type {
   EditorialAndJournalsQueryParam,
@@ -29,11 +31,25 @@ export const SetJournalsPublishAPI = (
   return service.post(`/journals/publish`, data)
 }
 
-// 发布期刊 SetJournalsNotPublishAPI
+// 下架期刊 SetJournalsNotPublishAPI
 export const SetJournalsNotPublishAPI = (
   data: JournalsPublishParam
 ): Promise<ApiResponse<string>> | Promise<never> => {
   return service.post(`/journals/cancelPublish`, data)
+}
+
+// 下架期刊 SetJournalsNotPublishAPI
+export const SetJournalsTypeJournalAPI = (
+  data: JournalsTypeParam
+): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/journals/setJournal`, data)
+}
+
+// 下架期刊 SetJournalsNotPublishAPI
+export const SetJournalsTypeBookAPI = (
+  data: JournalsTypeParam
+): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/journals/setBook`, data)
 }
 
 // SelectJournalsByIdAPI 根据id期刊基本内容

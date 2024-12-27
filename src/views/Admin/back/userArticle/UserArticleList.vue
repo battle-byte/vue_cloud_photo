@@ -57,12 +57,14 @@
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="uid" label="ID" width="150" />
         <el-table-column prop="title" label="用户信息标题" width="200" />
         <el-table-column prop="firstName" label="FirstName" width="200" />
         <el-table-column prop="lastName" label="LastName" width="200" />
         <el-table-column prop="email" label="Email" width="200" />
         <el-table-column prop="title" label="用户文章标题" width="200" />
+        <el-table-column prop="journal" label="要投递的期刊" width="200" />
         <el-table-column prop="file" label="用户文件" width="200">
           <template #default="scope">
             <el-link :href="scope.row.file" type="primary" target="_blank">下载</el-link>

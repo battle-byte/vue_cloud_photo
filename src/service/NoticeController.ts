@@ -3,7 +3,7 @@ import type { ApiResponse } from '@/request/ApiResponse'
 import type { PageResult } from '@/types/Pages'
 import type {
   Notice,
-  NoticeContentEditVO,
+  NoticeContentEditVO, NoticeContentSaveVODTO, NoticeKindSaveVODTO,
   NoticeQueryByPageParam, NoticeQueryByPageVO
 
 } from '@/types/Notice'
@@ -33,7 +33,17 @@ export const EditNoticeContentAPi = (
   return service.post(`/notice/editNoticeContent`, data)
 }
 
-// deleteNoticeIdAPI 删除期刊
+// deleteNoticeIdAPI 删除公告
 export const deleteNoticeIdAPI = (id: string): Promise<ApiResponse<string>> | Promise<never> => {
   return service.get(`/notice/delete/${id}`)
+}
+
+// SaveNoticeBaseAPI 删除公告
+export const SaveNoticeBaseAPI = (data: NoticeContentSaveVODTO): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/notice/saveNotice`,data)
+}
+
+// UpdateNoticeKindAPI 修改公告位置
+export const UpdateNoticeKindAPI = (data: NoticeKindSaveVODTO): Promise<ApiResponse<string>> | Promise<never> => {
+  return service.post(`/notice/updateKind`,data)
 }

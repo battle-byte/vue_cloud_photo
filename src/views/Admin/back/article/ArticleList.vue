@@ -43,12 +43,8 @@
         placeholder="期刊ID"
         :prefix-icon="Search"
       />
-      <span style="padding-top: 5px">文章审核状态</span>
-      <el-select
-        v-model="searchArticle.isPublish"
-        placeholder="选择应用审核状态"
-        style="width: 240px"
-      >
+      <span style="padding-top: 5px">文章发布状态</span>
+      <el-select v-model="searchArticle.isPublish" placeholder="文章发布状态" style="width: 240px">
         <el-option
           style="font-size: 18px"
           v-for="item in publishOptions"
@@ -61,71 +57,54 @@
     </div>
 
     <div class="manage">
-      <!--      &lt;!&ndash;对话框 用于修改用户数据&ndash;&gt;-->
-      <!--      <el-dialog-->
-      <!--        v-model="dialogFormVisible"-->
-      <!--        title="文章信息"-->
-      <!--        width="500"-->
-      <!--        :before-close="handleClose"-->
-      <!--      >-->
-      <!--        <el-form :model="userMessage">-->
-      <!--          <el-form-item label="用户昵称">-->
-      <!--            <el-input-->
-      <!--              maxlength="10"-->
-      <!--              v-model="userMessage.userName"-->
-      <!--              placeholder="请输入姓名"-->
-      <!--              autocomplete="off"-->
-      <!--            />-->
-      <!--          </el-form-item>-->
-      <!--          <el-form-item label="用户简介">-->
-      <!--            <el-input-->
-      <!--              :maxlength="20"-->
-      <!--              v-model="userMessage.userProfile"-->
-      <!--              placeholder="请输入用户简介"-->
-      <!--              autocomplete="off"-->
-      <!--            />-->
-      <!--          </el-form-item>-->
-      <!--          <el-form-item v-model="userMessage.userAvatar">-->
-      <!--            <img-->
-      <!--              style="height: 400px; width: 450px"-->
-      <!--              :src="userMessage.userAvatar"-->
-      <!--              v-if="userMessage.userAvatar"-->
-      <!--            />-->
-      <!--            &lt;!&ndash;            <el-button v-else>用户尚未设置头像点击修改</el-button>&ndash;&gt;-->
-      <!--            &lt;!&ndash;            <view v-else>用户尚未设置头像点击修改</view>&ndash;&gt;-->
-      <!--          </el-form-item>-->
-      <!--        </el-form>-->
-      <!--        <template #footer>-->
-      <!--          <div class="dialog-footer">-->
-      <!--            <el-button @click="cancel">取消修改</el-button>-->
-      <!--            <el-button @click="submit" type="primary">确定修改</el-button>-->
-      <!--          </div>-->
-      <!--        </template>-->
-      <!--      </el-dialog>-->
-
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="pid" label="ID" width="180" />
-        <el-table-column prop="title" label="标题" width="180" />
-        <el-table-column prop="intro" label="简介" width="180" />
+        <el-table-column prop="title" label="标题" width="250" />
+        <el-table-column prop="intro" label="文章简介" width="400" />
+        <el-table-column prop="mainIntro" label="摘要概括" width="800" />
         <!--        <el-table-column prop="content" label="用户简介" />-->
-        <el-table-column prop="author" label="作者" width="200" />
-        <el-table-column prop="postAvatar" label="封面图" width="200">
+        <el-table-column prop="author" label="作者" width="250" />
+        <el-table-column prop="doi" label="DOI" width="300" />
+        <el-table-column prop="buyaddr" label="购买链接" width="300" />
+        <el-table-column prop="logoaddr" label="logo跳转链接" width="300" />
+        <el-table-column prop="postAvatar" label="封面图" width="210">
           <template #default="scope">
-            <el-image :src="scope.row.postAvatar" style="width: 100px; height: 100px" />
+            <el-image :src="scope.row.postAvatar" style="width: 204.52px; height: 140px" />
           </template>
         </el-table-column>
-        <el-table-column prop="periodical" label="所属期刊id" width="150" />
-        <el-table-column prop="periodicalName" label="所属期刊名称" width="150" />
+        <el-table-column prop="periodical" label="所属期刊id" width="180" />
+        <el-table-column prop="periodicalName" label="所属期刊名称" width="250" />
+        <el-table-column prop="volume" label="期数" width="100" />
+        <el-table-column prop="archivist" label="是否归档" width="150">
+          <template #default="scope">
+            <span v-html="resultFormatArchivist(scope.row.archivist)"> </span>
+          </template>
+        </el-table-column>
         <!--        <el-table-column prop="doi" label="doi" width="150" />-->
-        <el-table-column prop="publishTime" label="发布时间" width="150" />
-        <el-table-column prop="updateTime" label="修改时间" width="150" />
+        <el-table-column prop="publishTime" label="发布时间" width="200" />
+        <el-table-column prop="updateTime" label="修改时间" width="200" />
         <el-table-column prop="views" label="阅读量" width="150" />
         <el-table-column prop="upload" label="下载量" width="150" />
         <el-table-column prop="kuote" label="引用量" width="150" />
         <el-table-column prop="model" label="收费模式" width="150" />
         <el-table-column prop="status" label="状态" width="150" />
+        <el-table-column prop="word" label="Word" width="200">
+          <template #default="scope">
+            <span v-if="scope.row.word === ''">未上传Word文件 </span>
+            <el-link :href="scope.row.word" type="primary" target="_blank" v-else>{{ scope.row.word }}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column prop="pdf" label="Pdf" width="200">
+          <template #default="scope">
+            <span v-if="scope.row.pdf === ''">未上传Pdf文件 </span>
+            <el-link :href="scope.row.pdf" type="primary" target="_blank" v-else>{{
+              scope.row.pdf
+            }}</el-link>
+          </template>
+        </el-table-column>
         <el-table-column prop="isPublish" label="文章发布状态" width="150">
           <template #default="scope">
             <span v-html="resultFormatPublish(scope.row.isPublish)"> </span>
@@ -136,41 +115,88 @@
             <span v-html="resultFormatPerfect(scope.row.perfect)"> </span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="500">
+        <el-table-column label="操作" width="800">
           <template #default="scope">
-            <el-button size="small" @click="handleBaseEdit(scope.row)">基础编辑</el-button>
-            <el-button size="small" type="primary" @click="handleCommentEdit(scope.row)"
-              >内容编辑
-            </el-button>
-            <el-button
-              size="small"
-              type="warning"
-              @click="SetArticleNotPublish(scope.row)"
-              v-if="scope.row.isPublish == 1"
-              >下架文章
-            </el-button>
-            <el-button
-              size="small"
-              type="success"
-              @click="SetArticlePublish(scope.row)"
-              v-if="scope.row.isPublish == 0"
-              >发布文章
-            </el-button>
-            <el-button
-              size="small"
-              type="warning"
-              @click="SetArticleNotPerfect(scope.row)"
-              v-if="scope.row.perfect == 1"
-              >普通文章
-            </el-button>
-            <el-button
-              size="small"
-              type="success"
-              @click="SetArticlePerfect(scope.row)"
-              v-if="scope.row.perfect == 0"
-              >精选文章
-            </el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+            <el-row>
+              <el-button size="small" @click="handleBaseEdit(scope.row)">基础编辑</el-button>
+              <el-button size="small" type="primary" @click="handleCommentEdit(scope.row)"
+                >内容编辑
+              </el-button>
+              <el-button
+                size="small"
+                type="warning"
+                @click="SetArticleNotPublish(scope.row)"
+                v-if="scope.row.isPublish == 1"
+                >下架文章
+              </el-button>
+              <el-button
+                size="small"
+                type="success"
+                @click="SetArticlePublish(scope.row)"
+                v-if="scope.row.isPublish == 0"
+                >发布文章
+              </el-button>
+              <el-button
+                size="small"
+                type="warning"
+                @click="SetArticleNotPerfect(scope.row)"
+                v-if="scope.row.perfect == 1"
+                >普通文章
+              </el-button>
+              <el-button
+                size="small"
+                type="success"
+                @click="SetArticlePerfect(scope.row)"
+                v-if="scope.row.perfect == 0"
+                >精选文章
+              </el-button>
+              <el-button
+                size="small"
+                type="warning"
+                @click="SetArticleArchivist(scope.row)"
+                v-if="scope.row.archivist === 0"
+                >设为归档
+              </el-button>
+              <el-button
+                size="small"
+                type="success"
+                @click="SetNotArticleArchivist(scope.row)"
+                v-if="scope.row.archivist === 1"
+                >取消归档
+              </el-button>
+              <el-upload
+                :limit="1"
+                :show-file-list="false"
+                :http-request="addWord"
+                :multiple="false"
+              >
+                <el-button
+                  @click="GetArticle(scope.row)"
+                  style="margin-left: 15px"
+                  size="small"
+                  type="success"
+                >
+                  上传word
+                </el-button>
+              </el-upload>
+              <el-upload
+                :limit="1"
+                :show-file-list="false"
+                :http-request="addPdf"
+                :multiple="false"
+              >
+                <el-button
+                  @click="GetArticle(scope.row)"
+                  style="margin-left: 15px; margin-right: 15px"
+                  size="small"
+                  type="info"
+                  >上传pdf
+                </el-button>
+              </el-upload>
+              <el-button size="small" type="danger" @click="handleDelete(scope.row)"
+                >删除
+              </el-button>
+            </el-row>
           </template>
         </el-table-column>
       </el-table>
@@ -205,12 +231,82 @@ import type {
 import {
   deleteArticleIdAPI,
   SelectArticleByPageAPI,
+  SetArticleArchivistAPI,
+  SetArticleNotArchivistAPI,
   SetArticleNotPerfectAPI,
   SetArticleNotPublishAPI,
   SetArticlePerfectAPI,
-  SetArticlePublishAPI
+  SetArticlePublishAPI,
+  UploadPdfAPI,
+  UploadWordAPI
 } from '@/service/ArticleController'
 import router from '@/router'
+import { UploadFilePdf, UploadFileWord, uploadImage } from '@/service/UpLoadFile'
+
+let url = ref<string>('')
+let NowArticleId = ref<string>('')
+const GetArticle = (articleQueryAndPeriodicalVO: ArticleQueryAndPeriodicalVO) => {
+  NowArticleId.value = articleQueryAndPeriodicalVO.pid!
+  console.log(NowArticleId.value)
+}
+//活动图片上传
+const addPdf = async (files: any) => {
+  let fromData = new FormData()
+  fromData.append('file', files.file)
+
+  let res = await UploadFilePdf(fromData) // 上传到阿里云
+  if (res.code === 0) {
+    url.value! = res.data
+  } else {
+    ElMessage.error(res.data)
+    return
+  }
+  // urls.value.push(res.data)
+
+  if (NowArticleId.value !== '') {
+    const res = await UploadPdfAPI({
+      pid: NowArticleId.value,
+      pdf: url.value
+    })
+    if (res.code === 0) {
+      ElMessage.success(res.data)
+      //封禁成功刷新用户当页用户信息  并清空路径和id
+      getArticleList(articlePage.value.page, articlePage.value.pageSize)
+      url.value = ''
+      NowArticleId.value = ''
+    }
+  } else {
+    ElMessage.error('出错了！请重试')
+  }
+}
+
+const addWord = async (files: any) => {
+  let fromData = new FormData()
+  fromData.append('file', files.file)
+
+  let res = await UploadFileWord(fromData) // 上传到阿里云
+  if (res.code === 0) {
+    url.value! = res.data
+  } else {
+    ElMessage.error(res.data)
+    return
+  }
+  if (NowArticleId.value !== '') {
+    const res = await UploadWordAPI({
+      pid: NowArticleId.value,
+      word: url.value
+    })
+    if (res.code === 0) {
+      ElMessage.success(res.data)
+      //封禁成功刷新用户当页用户信息  并清空路径和id
+      getArticleList(articlePage.value.page, articlePage.value.pageSize)
+      url.value = ''
+      NowArticleId.value = ''
+    }
+  } else {
+    ElMessage.error('出错了！请重试')
+  }
+}
 
 //分页下标
 const pageCount = ref<number>(0)
@@ -237,6 +333,18 @@ const resultFormatPublish = (value: number) => {
     return '未知'
   }
 }
+
+//文章状态数据格式化  0 不发布 1已发布
+const resultFormatArchivist = (value: number) => {
+  if (value == 1) {
+    return `归档`
+  } else if (value == 0) {
+    return `不归档`
+  } else {
+    return '未知'
+  }
+}
+
 // 文章状态品质状态
 const resultFormatPerfect = (value: number) => {
   if (value == 1) {
@@ -307,6 +415,38 @@ const SetArticlePublish = async (articleQueryAndPeriodicalVO: ArticleQueryAndPer
   })
   if (res.code === 0) {
     //解封成功刷新用户当页用户信息
+    getArticleList(articlePage.value.page, articlePage.value.pageSize)
+  }
+}
+
+//设为归档 SetArticleArchivist
+const SetArticleArchivist = async (articleQueryAndPeriodicalVO: ArticleQueryAndPeriodicalVO) => {
+  if (articleQueryAndPeriodicalVO.archivist == 1) {
+    ElMessage.error('文章已经设为归档')
+    return
+  }
+  const res = await SetArticleArchivistAPI({
+    pid: articleQueryAndPeriodicalVO.pid,
+    archivist: 1
+  })
+  if (res.code === 0) {
+    //封禁成功刷新用户当页用户信息
+    getArticleList(articlePage.value.page, articlePage.value.pageSize)
+  }
+}
+
+//取消归档 SetNotArticleArchivist
+const SetNotArticleArchivist = async (articleQueryAndPeriodicalVO: ArticleQueryAndPeriodicalVO) => {
+  if (articleQueryAndPeriodicalVO.archivist == 0) {
+    ElMessage.error('文章已经取消归档')
+    return
+  }
+  const res = await SetArticleNotArchivistAPI({
+    pid: articleQueryAndPeriodicalVO.pid,
+    archivist: 0
+  })
+  if (res.code === 0) {
+    //封禁成功刷新用户当页用户信息
     getArticleList(articlePage.value.page, articlePage.value.pageSize)
   }
 }

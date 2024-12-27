@@ -59,6 +59,19 @@ export type NewsContentEditParam = {
   title?: string // 标题
   content?: string // 内容
 }
+// NewsContentEditParam 修改新闻核心内容
+export type NewsContentEditDTO = {
+  // 新闻表
+  nid?: string // 新闻id
+  title?: string // 标题
+  content?: NullString // 内容
+}
+
+
+export type NullString = {
+  String: string
+  Valid: boolean // Valid is true if String is not NULL
+}
 
 // NewsContentEditParam 修改新闻核心内容
 export type NewsContentEditVO = {

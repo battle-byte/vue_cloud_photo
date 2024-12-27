@@ -43,6 +43,7 @@
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="nid" label="ID" width="200" />
         <el-table-column prop="title" label="新闻标题" width="300" />
         <el-table-column prop="photo" label="封面图" width="200">

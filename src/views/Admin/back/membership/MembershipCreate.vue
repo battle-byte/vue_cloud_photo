@@ -2,10 +2,10 @@
   <view class="Admin">
     <div style="width: 1000px">
       <div style="margin-bottom: 20px; background-color: #f2f2f2; font-size: 20px">
-        正在创建新的编委会成员
+        正在创建新的合作伙伴
       </div>
     </div>
-    <el-form :rules="rules" :model="editorialMessage" ref="form" size="large" autocomplete="off">
+    <el-form :rules="rules" :model="membershipMessage" ref="form" size="large" autocomplete="off">
       <el-form-item>
         <el-upload
           class="upload-demo"
@@ -15,29 +15,29 @@
           :multiple="false"
         >
           <el-button style="padding-bottom: 15px; width: 200px" type="primary"
-            >成员照片上传
+            >合作伙伴图片上传
           </el-button>
           <template #tip>
             <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
-              建议宽高比例 88:135
+              建议宽高比例 177(宽)∶215(高)
             </div>
           </template>
         </el-upload>
       </el-form-item>
       <view style="display: flex; padding-top: 10px"></view>
-      <el-form-item prop="ePhoto" style="background-color: #e4e8f1">
+      <el-form-item prop="img" style="background-color: #e4e8f1">
         <div>
-          <el-image
-            style=" padding-left: 5px"
-            :src="editorialMessage.ePhoto"
-            fit="fill"
-          />
+          <el-image style="padding-left: 5px" :src="membershipMessage.img" fit="fill" />
         </div>
       </el-form-item>
-      <el-form-item prop="eName">
+      <el-form-item prop="url">
         <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">成员名称</span>
-          <el-input v-model="editorialMessage.eName" style="width: 1000px" placeholder="成员名称" />
+          <span style="padding-right: 10px; font-size: 18px">合作伙伴路径</span>
+          <el-input
+            v-model="membershipMessage.url"
+            style="width: 1000px"
+            placeholder="合作伙伴路径"
+          />
           <view style="padding-right: 50px" />
           <el-button
             style="width: 150px"
@@ -45,24 +45,8 @@
             class="submit-button"
             type="primary"
           >
-            save the editorial
+            save the Membership
           </el-button>
-        </div>
-      </el-form-item>
-
-      <el-form-item prop="comment">
-        <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">简介</span>
-          <el-input v-model="editorialMessage.comment" style="width: 1000px" placeholder="简介" />
-          <view style="padding-right: 50px" />
-        </div>
-      </el-form-item>
-
-      <el-form-item prop="sections">
-        <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">Email</span>
-          <el-input v-model="editorialMessage.sections" style="width: 1000px" placeholder="Email" />
-          <view style="padding-right: 50px" />
         </div>
       </el-form-item>
     </el-form>
@@ -76,10 +60,10 @@ import 'bytemd/dist/index.css'
 import router from '@/router'
 import { uploadImage } from '@/service/UpLoadFile'
 import { GenerateOnlyIdAPI } from '@/service/GenerateOnlyId'
-import type { EditorialSaveParam } from '@/types/Editorial'
-import { SaveEditorialBaseAPI } from '@/service/EditorialController'
+import type { MembershipBaseSaveParam } from '@/types/Membership'
+import { SaveMembershipBaseAPI } from '@/service/MembershipController'
 
-//活动图片上传
+//合作伙伴图片上传
 const addPhoto = async (files: any) => {
   let fromData = new FormData()
   fromData.append('file', files.file)
@@ -87,7 +71,7 @@ const addPhoto = async (files: any) => {
   let res = await uploadImage(fromData) // 上传到云服务器
   if (res.code === 0) {
     // urls.value.push(res.data)
-    editorialMessage.value.ePhoto! = res.data
+    membershipMessage.value.img! = res.data
     ElMessage({
       message: '上传成功,请耐心等待加载中',
       type: 'success'
@@ -100,8 +84,8 @@ const addPhoto = async (files: any) => {
   }
 }
 
-//活动泛型
-const editorialMessage = ref<EditorialSaveParam>({})
+//合作伙伴泛型
+const membershipMessage = ref<MembershipBaseSaveParam>({})
 
 //表单校验
 const form = ref<InstanceType<typeof FormInstance>>()
@@ -109,28 +93,14 @@ const form = ref<InstanceType<typeof FormInstance>>()
 //表单校验规则
 const rules = {
   // 后端自动处理图片问题
-  eName: [
+  url: [
     {
       required: true,
       message: '不能为空',
       trigger: 'change'
     }
   ],
-  ePhoto: [
-    {
-      required: true,
-      message: '不能为空',
-      trigger: 'change'
-    }
-  ],
-  comment: [
-    {
-      required: true,
-      message: '不能为空',
-      trigger: 'change'
-    }
-  ],
-  sections: [
+  img: [
     {
       required: true,
       message: '不能为空',
@@ -139,14 +109,14 @@ const rules = {
   ]
 }
 
-//提交编委会成员前的校验并且校验成功后
+//提交合作伙伴前的校验并且校验成功后
 const submitSave = async (formE: InstanceType<typeof FormInstance> | undefined) => {
   if (!formE) return
   await formE.validate((valid: any, fields: any) => {
     if (valid) {
       //提示成功信息
       ElMessage({
-        message: '正在提交编委会成员内容,切勿重复保存',
+        message: '正在提交合作伙伴内容,切勿重复保存',
         type: 'success'
       })
       SaveArticle()
@@ -160,19 +130,19 @@ const submitSave = async (formE: InstanceType<typeof FormInstance> | undefined) 
 const onlyPid = async () => {
   const res = await GenerateOnlyIdAPI()
   if (res.code === 0) {
-    editorialMessage.value.eid = res.data
+    membershipMessage.value.id = res.data
   }
 }
 
-// 保存编委会成员内容
+// 保存合作伙伴内容
 const SaveArticle = async () => {
-  const res = await SaveEditorialBaseAPI({
-    ...editorialMessage.value
+  const res = await SaveMembershipBaseAPI({
+    ...membershipMessage.value
   })
   if (res.code == 0) {
-    ElMessage.success('编委会成员创建成功!')
+    ElMessage.success('合作伙伴创建成功!')
     router.push({
-      path: '/back/editorial/EditorialList'
+      path: '/back/membership/MembershipList'
     })
   }
 }

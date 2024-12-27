@@ -43,17 +43,42 @@
       <!--表格-->
       <!--prop要求必须和集合中的字段对应-->
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
+        <el-table-column type="index" width="50" />
         <el-table-column prop="nid" label="ID" width="200" />
         <el-table-column prop="name" label="公告标题" width="400" />
+        <el-table-column prop="kind" label="公告位置" width="150">
+          <template #default="scope">
+            <span v-html="resultFormatKind(scope.row.kind)"> </span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="500">
           <template #default="scope">
-<!--            <el-button size="small"  @click="handleNoticeBaseEdit(scope.row)"-->
-<!--              >基础编辑-->
-<!--            </el-button>-->
+            <!--            <el-button size="small"  @click="handleNoticeBaseEdit(scope.row)"-->
+            <!--              >基础编辑-->
+            <!--            </el-button>-->
             <el-button size="small" type="primary" @click="handleNoticeContentEdit(scope.row)"
               >内容编辑
             </el-button>
-<!--            <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>-->
+            <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除 </el-button>
+            <!--            <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>-->
+            <el-button
+              size="small"
+              :type="scope.row.kind === 0? 'warning' :'success'"
+              @click="SetNoticePolicies(scope.row)"
+            >Policies
+            </el-button>
+            <el-button
+              size="small"
+              :type="scope.row.kind === 1? 'warning' :'success'"
+              @click="SetNoticeInformation(scope.row)"
+            >Information
+            </el-button>
+            <el-button
+              size="small"
+              :type="scope.row.kind === 2? 'warning' :'success'"
+              @click="SetNoticeAboutUs(scope.row)"
+            >About Us
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -82,7 +107,11 @@ import { Calendar, Search } from '@element-plus/icons-vue'
 
 import router from '@/router'
 import type { NoticeDeleteShow, NoticeQueryByPageParam, NoticeQueryByPageVO } from '@/types/Notice'
-import { deleteNoticeIdAPI, SelectNoticeByPageAPI } from '@/service/NoticeController'
+import {
+  deleteNoticeIdAPI,
+  SelectNoticeByPageAPI,
+  UpdateNoticeKindAPI
+} from '@/service/NoticeController'
 
 // 控制对话框是否打开
 const dialogFormVisible = ref(false)
@@ -116,6 +145,19 @@ const handleNoticeContentEdit = (noticeQueryByPageVO: NoticeQueryByPageVO) => {
   })
 }
 
+//文章状态数据格式化  0 不发布 1已发布
+const resultFormatKind = (value: number) => {
+  if (value == 1) {
+    return `Information`
+  } else if (value == 0) {
+    return `Policies`
+  } else if (value == 2) {
+    return 'About Us'
+  }else {
+    return '未知'
+  }
+}
+
 //获取用户信息
 const getNoticeList = async (page: number, pageSize: number) => {
   const res = await SelectNoticeByPageAPI({
@@ -130,8 +172,6 @@ const getNoticeList = async (page: number, pageSize: number) => {
     tableData.value = res.data.records
     pageCount.value = res.data.total
     ElMessage.success('已更新公告数据')
-  } else {
-
   }
 }
 
@@ -171,6 +211,54 @@ const submit = async () => {
   const res = await deleteNoticeIdAPI(deleteNoticeId.value.nid!)
   if (res.code == 0) {
     ElMessage.success('删除成功')
+    getNoticeList(noticePage.value.page, noticePage.value.pageSize)
+  }
+}
+
+//修改公告位置Policies SetNoticePolicies
+const SetNoticePolicies = async (noticeQueryByPageVO: NoticeQueryByPageVO) => {
+  if (noticeQueryByPageVO.kind == 0) {
+    ElMessage.error('公告已经在Policies中了')
+    return
+  }
+  const res = await UpdateNoticeKindAPI({
+    nid: noticeQueryByPageVO.nid,
+    kind: 0
+  })
+  if (res.code === 0) {
+    //解封成功刷新用户当页用户信息
+    getNoticeList(noticePage.value.page, noticePage.value.pageSize)
+  }
+}
+
+//修改公告位置Information SetNoticeInformation
+const SetNoticeInformation = async (noticeQueryByPageVO: NoticeQueryByPageVO) => {
+  if (noticeQueryByPageVO.kind == 1) {
+    ElMessage.error('公告已经在Information 中了')
+    return
+  }
+  const res = await UpdateNoticeKindAPI({
+    nid: noticeQueryByPageVO.nid,
+    kind: 1
+  })
+  if (res.code === 0) {
+    //解封成功刷新用户当页用户信息
+    getNoticeList(noticePage.value.page, noticePage.value.pageSize)
+  }
+}
+
+//修改公告位置About us SetNoticeInformation
+const SetNoticeAboutUs = async (noticeQueryByPageVO: NoticeQueryByPageVO) => {
+  if (noticeQueryByPageVO.kind == 2) {
+    ElMessage.error('公告已经在About Us中了')
+    return
+  }
+  const res = await UpdateNoticeKindAPI({
+    nid: noticeQueryByPageVO.nid,
+    kind: 2
+  })
+  if (res.code === 0) {
+    //解封成功刷新用户当页用户信息
     getNoticeList(noticePage.value.page, noticePage.value.pageSize)
   }
 }

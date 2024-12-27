@@ -19,16 +19,31 @@
           </el-button>
           <template #tip>
             <div class="el-upload__tip" style="font-size: 16px; color: #596fbd">
-              新闻照片选则尽量不要超过2MB
+              推荐比例 165(宽)∶127高)
             </div>
           </template>
         </el-upload>
+      </el-form-item>
+      <el-form-item>
+        <view style="display: flex">
+          <div class="block">
+            <span class="nTime" style="padding-right: 10px; font-size: 18px">新闻发布时间</span>
+            <el-date-picker
+              v-model="newsMessage.nTime"
+              type="datetime"
+              placeholder="新闻发布时间"
+              format="YYYY-MM-DD HH:mm:ss"
+              value-format="YYYY-MM-DD HH:mm:ss"
+            />
+          </div>
+          <view style="padding-left: 50px"></view>
+        </view>
       </el-form-item>
       <view style="display: flex; padding-top: 10px"></view>
       <el-form-item prop="photo" style="background-color: #e4e8f1">
         <div>
           <el-image
-            style="width: 200px; height: 200px; padding-left: 5px"
+            style="padding-left: 5px"
             :src="newsMessage.photo"
             fit="fill"
           />
