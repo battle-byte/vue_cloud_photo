@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="width: 767.5px" class = "show-text">
     <!-- 此处注意写法v-model:content -->
-    <div style="width: 767.5px" class="ql-editor" v-html="value"></div>
+    <div style="width: 100%;" class="ql-editor" v-html="value"></div>
   </div>
 </template>
 
@@ -21,5 +21,11 @@ const props = withDefaults(defineProps<Props>(), {
   // handleChange: (v: string) => {}
 })
 
+
 </script>
-<style scoped lang="css"></style>
+<style lang="css">
+.show-text img {
+  width: 100%;
+  height: auto;
+}
+</style>

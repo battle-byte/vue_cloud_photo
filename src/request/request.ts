@@ -11,7 +11,7 @@ const service = axios.create({
   // 设置基础地址和超时时间d
   baseURL,
   //十秒
-  timeout: 10000
+  timeout: 20000
 })
 
 //请求拦截器 添加请求头
