@@ -3,8 +3,8 @@ import { ElMessage } from 'element-plus'
 import { userStore } from '@/stores'
 import router from '@/router'
 //请求路径
-// const baseURL = 'http://localhost:8101/api' // 本地测试使用
-const baseURL = 'https://edsciencepress.com:8080/api' //上线使用
+const baseURL = 'http://localhost:8101/api' // 本地测试使用
+// const baseURL = 'https://edsciencepress.com:8080/api' //上线使用
 
 //创建axios实例
 const service = axios.create({

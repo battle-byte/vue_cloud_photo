@@ -151,7 +151,7 @@
         <div style="display: flex">
           <span style="padding-right: 10px; font-size: 18px">收费模式</span>
           <el-input
-            v-model.number="articleMessage.model"
+            v-model="articleMessage.model"
             style="width: 1000px"
             placeholder="收费模式"
           />
