@@ -349,6 +349,13 @@ const rules = {
       message: '不能为空',
       trigger: 'change'
     }
+  ],
+  note: [
+    {
+      required: true,
+      message: '不能为空',
+      trigger: 'change'
+    }
   ]
 }
 

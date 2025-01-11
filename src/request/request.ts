@@ -3,8 +3,8 @@ import { ElMessage } from 'element-plus'
 import { userStore } from '@/stores'
 import router from '@/router'
 //请求路径
-const baseURL = 'http://localhost:8101/api' // 本地测试使用
-// const baseURL = 'https://edsciencepress.com:8080/api' //上线使用
+// const baseURL = 'http://localhost:8101/api' // 本地测试使用
+const baseURL = 'https://edsciencepress.com:8080/api' //上线使用
 
 //创建axios实例
 const service = axios.create({
@@ -37,10 +37,10 @@ service.interceptors.response.use(
     return res.data
   },
   (err: AxiosError) => {
-    //特殊错误情况
-    // if (err.response?.status === 401) {
-    //   router.push('/login')
-    // }
+    //特殊错误情况 登陆验证过期重新登陆
+    if (err.response?.status === 401) {
+      router.push('/login')
+    }
     ElMessage.error(err.message || '请求失败')
     ElMessage.error(err.code || '请求失败')
     return err

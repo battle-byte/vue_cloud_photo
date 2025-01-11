@@ -341,7 +341,6 @@ const handleMakeAboutJournalsAimAndScorePage = (journalsQueryVO: JournalsQueryVO
   })
 }
 
-
 // 控制对话框是否打开
 const deleteDialogFormVisible = ref(false)
 
