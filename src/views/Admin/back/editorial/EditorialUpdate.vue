@@ -2,10 +2,10 @@
   <view class="Admin">
     <div style="width: 1000px">
       <div style="margin-bottom: 20px; background-color: #f2f2f2; font-size: 20px">
-        正在重新编辑编委会成员 ID: {{ props.id }}
+        正在重新编辑编辑人员成员 ID: {{ props.id }}
       </div>
       <div style="margin-bottom: 20px; background-color: #f2f2f2; font-size: 20px">
-        编委会成员名称: {{ editorialMessage.eName }}
+        编辑人员成员名称: {{ editorialMessage.eName }}
       </div>
     </div>
 
@@ -90,7 +90,7 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => ''
 })
 
-//编委会图片上传
+//编辑人员图片上传
 const addPhoto = async (files: any) => {
   let fromData = new FormData()
   fromData.append('file', files.file)
@@ -101,7 +101,7 @@ const addPhoto = async (files: any) => {
 }
 
 
-//编委会泛型
+//编辑人员泛型
 const editorialMessage = ref<EditorialEditParam>({})
 
 //表单校验
@@ -140,14 +140,14 @@ const rules = {
   ]
 }
 
-//提交编委会成员前的校验并且校验成功后
+//提交编辑人员成员前的校验并且校验成功后
 const submitSave = async (formE: InstanceType<typeof FormInstance> | undefined) => {
   if (!formE) return
   await formE.validate((valid: any, fields: any) => {
     if (valid) {
       //提示成功信息
       ElMessage({
-        message: '正在提交编委会成员内容,切勿重复保存',
+        message: '正在提交编辑人员成员内容,切勿重复保存',
         type: 'success'
       })
       updateEditorial()
@@ -157,7 +157,7 @@ const submitSave = async (formE: InstanceType<typeof FormInstance> | undefined) 
   })
 }
 
-//获取编委会成员基础内容
+//获取编辑人员成员基础内容
 const getEditorialOne = async () => {
   console.log('props.id', props.id)
   let res = await selectEditorialOneAPI(props.id)
@@ -176,7 +176,7 @@ const updateEditorial = async () => {
     ...editorialMessage.value
   })
   if (res.code == 0) {
-    ElMessage.success('编委会成员信息修改成功!')
+    ElMessage.success('编辑人员成员信息修改成功!')
     router.push({
       path: '/back/editorial/EditorialList'
     })

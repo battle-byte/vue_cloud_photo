@@ -149,19 +149,19 @@
       </el-form-item>
       <el-form-item prop="model">
         <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">收费模式</span>
+          <span style="padding-right: 10px; font-size: 18px">高校名称</span>
           <el-input
             v-model="articleMessage.model"
             style="width: 1000px"
-            placeholder="收费模式"
+            placeholder="高校名称"
           />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>
       <el-form-item prop="status">
         <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">状态</span>
-          <el-input v-model="articleMessage.status" style="width: 1000px" placeholder="状态" />
+          <span style="padding-right: 10px; font-size: 18px">标签</span>
+          <el-input v-model="articleMessage.status" style="width: 1000px" placeholder="标签" />
           <view style="padding-right: 50px" />
         </div>
       </el-form-item>

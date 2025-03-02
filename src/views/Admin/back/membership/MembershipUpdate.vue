@@ -76,7 +76,7 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => ''
 })
 
-//编委会图片上传
+//编辑人员图片上传
 const addPhoto = async (files: any) => {
   let fromData = new FormData()
   fromData.append('file', files.file)
@@ -103,7 +103,7 @@ const addPhoto = async (files: any) => {
   // urls.value.push(res.data)
 }
 
-//编委会泛型
+//编辑人员泛型
 const membershipMessage = ref<MembershipBaseEditParam>({})
 
 //表单校验

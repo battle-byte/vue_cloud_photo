@@ -98,7 +98,7 @@ export const SaveArticleBaseAPI = (
   return service.post(`/article/saveArticleBase`, data)
 }
 
-// deleteArticleIdAPI 删除期刊
+// deleteArticleIdAPI 删除高校
 export const deleteArticleIdAPI = (id: string): Promise<ApiResponse<string>> | Promise<never> => {
   return service.get(`/article/delete/${id}`)
 }

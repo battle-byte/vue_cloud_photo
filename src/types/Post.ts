@@ -4,7 +4,7 @@ export type post = {
   title?: string;//标题
   content?: string;//内容
   author?: string;//作者
-  periodical?: string;//期刊id
+  periodical?: string;//高校id
   textUrl?: string;//文章发表路径
   receiveTime?: string; //接收时间
   hireTime?: string;//录用时间
@@ -22,8 +22,8 @@ export type postList = {
   title?: string;//标题
   content?: string;//内容
   author?: string;//作者
-  periodical?: string;//期刊id
-  periodicalName?: string;//期刊名称
+  periodical?: string;//高校id
+  periodicalName?: string;//高校名称
   textUrl?: string;//文章发表路径
   receiveTime?: string; //接收时间
   hireTime?: string;//录用时间

@@ -3,7 +3,7 @@
     <!--对话框 用于确认是否删除对应页面-->
     <el-dialog
       v-model="deleteDialogFormVisible"
-      title="删除期刊"
+      title="删除高校"
       width="500"
       :before-close="handleClose"
     >
@@ -22,8 +22,8 @@
     </el-dialog>
 
     <div class="flex gap-4 mb-4">
-      <span style="padding-top: 5px">正在编辑的期刊{{ props.id }}的导航栏</span>
-      <span style="padding-top: 5px">正在编辑的期刊名称:{{ journalsMessage.journalsName }}</span>
+      <span style="padding-top: 5px">正在编辑的高校{{ props.id }}的导航栏</span>
+      <span style="padding-top: 5px">正在编辑的高校名称:{{ journalsMessage.journalsName }}</span>
 
       <el-button type="primary" @click="createAbout">创建新的About栏</el-button>
     </div>
@@ -160,7 +160,7 @@ const getAboutList = async (page: number, pageSize: number) => {
     //将后端的内容添加到集合内
     tableData.value = res.data.records
     pageCount.value = res.data.total
-    ElMessage.success('已更新期刊数据')
+    ElMessage.success('已更新高校数据')
   } else {
   }
 }
@@ -172,7 +172,7 @@ const handlePage = (val: number) => {
 
 const journalsMessage = ref<JournalsQueryVO>({})
 
-//获取期刊基础内容
+//获取高校基础内容
 const getJournalsOne = async () => {
   let res = await SelectJournalsByIdAPI(props.id)
   if (res.code === 0) {

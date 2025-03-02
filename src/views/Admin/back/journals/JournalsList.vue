@@ -3,12 +3,12 @@
     <!--对话框 用于确认是否删除对应页面-->
     <el-dialog
       v-model="deleteDialogFormVisible"
-      title="删除期刊"
+      title="删除高校"
       width="500"
       :before-close="handleClose"
     >
       <el-col>
-        <span>确认删除期刊</span>
+        <span>确认删除高校</span>
         <span>ID:{{ deleteJournalsId.jid }}</span>
         <span>标题:{{ deleteJournalsId.journalsName }}</span>
       </el-col>
@@ -22,24 +22,24 @@
     </el-dialog>
 
     <div class="flex gap-4 mb-4">
-      <span style="padding-top: 5px">期刊ID</span>
+      <span style="padding-top: 5px">高校ID</span>
       <el-input
         v-model="searchJournals.jid"
         style="width: 240px"
-        placeholder="请输入期刊ID"
+        placeholder="请输入高校ID"
         :suffix-icon="Search"
       />
-      <span style="padding-top: 5px">期刊标题</span>
+      <span style="padding-top: 5px">高校标题</span>
       <el-input
         v-model="searchJournals.journalsName"
         style="width: 240px"
-        placeholder="期刊标题"
+        placeholder="高校标题"
         :prefix-icon="Search"
       />
-      <span style="padding-top: 5px">期刊发布状态</span>
+      <span style="padding-top: 5px">高校发布状态</span>
       <el-select
         v-model="searchJournals.isPublish"
-        placeholder="选择应用期刊发布状态"
+        placeholder="选择应用高校发布状态"
         style="width: 240px"
       >
         <el-option
@@ -59,14 +59,14 @@
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
         <el-table-column type="index" width="50" />
         <el-table-column prop="jid" label="ID" width="180" />
-        <el-table-column prop="journalsName" label="期刊名称" width="200" />
-        <el-table-column prop="elssn" label="ISSN" width="180" />
+        <el-table-column prop="journalsName" label="高校名称" width="200" />
+        <el-table-column prop="elssn" label="开源评分" width="180" />
         <el-table-column prop="email" label="email" width="180" />
-        <!--        <el-table-column prop="content" label="期刊简介" />-->
+        <!--        <el-table-column prop="content" label="高校简介" />-->
         <el-table-column prop="eic" label="EIC" width="200" />
-        <el-table-column prop="journalsPhoto" label="封面图" width="400">
+        <el-table-column prop="smallImage" label="封面图" width="400">
           <template #default="scope">
-            <el-image :src="scope.row.journalsPhoto" style="width: 345px; height: 100px" />
+            <el-image :src="scope.row.smallImage" style="width: 150px; height: 150px" />
           </template>
         </el-table-column>
         <el-table-column prop="frequency" label="Frequency" width="150" />
@@ -76,9 +76,9 @@
         <el-table-column prop="peerReviewModel" label="Peer Review Model" width="200" />
         <el-table-column prop="indexArchiving" label="index Archiving" width="200" />
         <el-table-column prop="launched" label="Launched" width="150" />
-        <el-table-column prop="count" label="期刊文章数量" width="150" />
+        <el-table-column prop="count" label="高校文章数量" width="150" />
         <el-table-column prop="createTime" label="创建时间" width="150" />
-        <el-table-column prop="isPublish" label="期刊发布状态" width="150">
+        <el-table-column prop="isPublish" label="高校发布状态" width="150">
           <template #default="scope">
             <span v-html="resultFormatPublish(scope.row.isPublish)"> </span>
           </template>
@@ -96,21 +96,21 @@
               type="warning"
               @click="SetJournalsNotPublish(scope.row)"
               v-if="scope.row.isPublish == 1"
-              >下架期刊
+              >下架高校
             </el-button>
             <el-button
               size="small"
               type="success"
               @click="SetJournalsPublish(scope.row)"
               v-if="scope.row.isPublish == 0"
-              >发布期刊
+              >发布高校
             </el-button>
             <el-button
               size="small"
               type="warning"
               @click="SetJournalsTypeJournal(scope.row)"
               v-if="scope.row.type == 1"
-              >设为期刊
+              >设为高校
             </el-button>
             <el-button
               size="small"
@@ -126,7 +126,7 @@
               >添加编辑
             </el-button>
             <el-button size="small" type="info" @click="handleMakeAboutJournalsPage(scope.row)"
-              >关于期刊
+              >关于高校
             </el-button>
             <el-button
               size="small"
@@ -160,7 +160,7 @@
 </template>
 
 <script setup lang="ts">
-//期刊的基本信息
+//高校的基本信息
 import { onMounted, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { PageParams } from '@/types/Pages'
@@ -198,7 +198,7 @@ const searchJournals = ref<JournalsQueryByPageParam>({})
 //表格数据
 const tableData = ref<JournalsQueryVO[]>([])
 
-//期刊状态数据格式化  0 不发布 1已发布
+//高校状态数据格式化  0 不发布 1已发布
 const resultFormatPublish = (value: number) => {
   if (value == 1) {
     return `已发布`
@@ -209,18 +209,18 @@ const resultFormatPublish = (value: number) => {
   }
 }
 
-//期刊状态数据格式化  0 不发布 1已发布
+//高校状态数据格式化  0 不发布 1已发布
 const resultFormatPublishType = (value: number) => {
   if (value == 1) {
     return `书籍`
   } else if (value == 0) {
-    return `期刊`
+    return `高校`
   } else {
     return '未知'
   }
 }
 
-// 期刊发布状态选择框
+// 高校发布状态选择框
 const publishOptions = [
   {
     value: '0',
@@ -247,7 +247,7 @@ const SetJournalsNotPublish = async (journalsQueryVO: JournalsQueryVO) => {
     isPublish: 0
   })
   if (res.code === 0) {
-    //封禁成功刷新期刊当页期刊信息
+    //封禁成功刷新高校当页高校信息
     getJournalsList(JournalsPage.value.page, JournalsPage.value.page)
   }
 }
@@ -255,7 +255,7 @@ const SetJournalsNotPublish = async (journalsQueryVO: JournalsQueryVO) => {
 //发布文章
 const SetJournalsPublish = async (journalsQueryVO: JournalsQueryVO) => {
   if (journalsQueryVO.isPublish == 1) {
-    ElMessage.error('期刊已发布')
+    ElMessage.error('高校已发布')
     return
   }
   const res = await SetJournalsPublishAPI({
@@ -263,15 +263,15 @@ const SetJournalsPublish = async (journalsQueryVO: JournalsQueryVO) => {
     isPublish: 1
   })
   if (res.code === 0) {
-    //解封成功刷新期刊当页期刊信息
+    //解封成功刷新高校当页高校信息
     getJournalsList(JournalsPage.value.page, JournalsPage.value.page)
   }
 }
 
-//设为期刊 SetJournalsTypeJournal
+//设为高校 SetJournalsTypeJournal
 const SetJournalsTypeJournal = async (journalsQueryVO: JournalsQueryVO) => {
   if (journalsQueryVO.type == 0) {
-    ElMessage.error('类型已经是期刊了')
+    ElMessage.error('类型已经是高校了')
     return
   }
   const res = await SetJournalsTypeJournalAPI({
@@ -279,7 +279,7 @@ const SetJournalsTypeJournal = async (journalsQueryVO: JournalsQueryVO) => {
     type: 0
   })
   if (res.code === 0) {
-    //解封成功刷新期刊当页期刊信息
+    //解封成功刷新高校当页高校信息
     getJournalsList(JournalsPage.value.page, JournalsPage.value.page)
   }
 }
@@ -295,7 +295,7 @@ const SetJournalsTypeBook = async (journalsQueryVO: JournalsQueryVO) => {
     type: 1
   })
   if (res.code === 0) {
-    //解封成功刷新期刊当页期刊信息
+    //解封成功刷新高校当页高校信息
     getJournalsList(JournalsPage.value.page, JournalsPage.value.page)
   }
 }
@@ -320,7 +320,7 @@ const handleAddEditorial = (journalsQueryVO: JournalsQueryVO) => {
   })
 }
 
-// 关于期刊
+// 关于高校
 const handleMakeAboutJournalsPage = (journalsQueryVO: JournalsQueryVO) => {
   router.push({
     path: `/back/aboutJournals/MakeAboutJournalsPage/${journalsQueryVO.jid}`
@@ -382,7 +382,7 @@ const submit = async () => {
   }
 }
 
-//获取期刊信息
+//获取高校信息
 const getJournalsList = async (page: number, pageSize: number) => {
   const res = await SelectJournalsByPageAPI({
     jid: searchJournals.value.jid,
@@ -395,7 +395,7 @@ const getJournalsList = async (page: number, pageSize: number) => {
     //将后端的内容添加到集合内
     tableData.value = res.data.records
     pageCount.value = res.data.total
-    ElMessage.success('已更新期刊数据')
+    ElMessage.success('已更新高校数据')
   } else {
   }
 }

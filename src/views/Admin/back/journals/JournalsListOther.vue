@@ -1,18 +1,18 @@
 <template>
   <view>
     <div class="flex gap-4 mb-4">
-      <span style="padding-top: 5px">期刊ID</span>
+      <span style="padding-top: 5px">高校ID</span>
       <el-input
         v-model="searchJournals.jid"
         style="width: 240px"
-        placeholder="请输入期刊ID"
+        placeholder="请输入高校ID"
         :suffix-icon="Search"
       />
-      <span style="padding-top: 5px">期刊标题</span>
+      <span style="padding-top: 5px">高校标题</span>
       <el-input
         v-model="searchJournals.journalsName"
         style="width: 240px"
-        placeholder="期刊标题"
+        placeholder="高校标题"
         :prefix-icon="Search"
       />
       <el-button type="primary" @click="searchJournalsList">搜索</el-button>
@@ -24,7 +24,7 @@
       <el-table height="90%" :data="tableData" stripe style="width: 100%">
         <el-table-column type="index" width="50" />
         <el-table-column prop="jid" label="ID" width="180" />
-        <el-table-column prop="journalsName" label="期刊名称" width="200" />
+        <el-table-column prop="journalsName" label="高校名称" width="200" />
         <el-table-column label="About" width="200">
           <template #default="scope">
             <el-button size="small" type="primary" @click="GoAbout(scope.row)"
@@ -110,7 +110,7 @@ const searchJournals = ref<JournalsQueryByPageParam>({})
 const tableData = ref<JournalsQueryVO[]>([])
 
 
-// 期刊发布状态选择框
+// 高校发布状态选择框
 const publishOptions = [
   {
     value: '0',
@@ -178,7 +178,7 @@ const getJournalsList = async (page: number, pageSize: number) => {
     //将后端的内容添加到集合内
     tableData.value = res.data.records
     pageCount.value = res.data.total
-    ElMessage.success('已更新期刊数据')
+    ElMessage.success('已更新高校数据')
   } else {
   }
 }

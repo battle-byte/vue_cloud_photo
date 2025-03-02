@@ -78,12 +78,12 @@
 
       <el-form-item prop="jcount">
         <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">期刊数</span>
+          <span style="padding-right: 10px; font-size: 18px">高校数</span>
           <el-input
             v-model.number="indexMessage.jcount"
             type="number"
             style="width: 1000px"
-            placeholder="期刊数"
+            placeholder="高校数"
           />
           <view style="padding-right: 50px" />
           <el-button
@@ -271,7 +271,7 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => ''
 })
 
-//编委会泛型
+//编辑人员泛型
 const indexMessage = ref<IndexEditParam>({})
 
 //表单校验

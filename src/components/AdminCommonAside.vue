@@ -35,13 +35,13 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
-        <!-- 期刊管理     -->
+        <!-- 高校管理     -->
         <el-sub-menu index="2">
           <template #title>
             <el-icon>
               <List />
             </el-icon>
-            <span>期刊管理</span>
+            <span>高校管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item
@@ -79,13 +79,13 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
-        <!--编委会管理-->
+        <!--编辑人员管理-->
         <el-sub-menu index="4">
           <template #title>
             <el-icon>
               <QuestionFilled />
             </el-icon>
-            <span>编委会管理</span>
+            <span>编辑人员管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item
@@ -234,6 +234,72 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
+        <!--轮播图-->
+        <el-sub-menu index="11" v-if="userMessage.user?.userRole == 2">
+          <template #title>
+            <el-icon>
+              <HotWater />
+            </el-icon>
+            <span>轮播图</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item
+              @click="clickMenu(item.path)"
+              v-for="item in bannerList"
+              :key="item.name"
+              :index="item.name"
+            >
+              <i :class="`el-icon-${item.icon}`"></i>
+              <template v-slot:title>
+                <span>{{ item.name }}</span>
+              </template>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-sub-menu>
+        <!--开源项目-->
+        <el-sub-menu index="12" v-if="userMessage.user?.userRole == 2">
+          <template #title>
+            <el-icon>
+              <HotWater />
+            </el-icon>
+            <span>开源项目</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item
+              @click="clickMenu(item.path)"
+              v-for="item in ProjectDataList"
+              :key="item.name"
+              :index="item.name"
+            >
+              <i :class="`el-icon-${item.icon}`"></i>
+              <template v-slot:title>
+                <span>{{ item.name }}</span>
+              </template>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-sub-menu>
+        <!--用户管理-->
+        <el-sub-menu index="13" v-if="userMessage.user?.userRole == 2">
+          <template #title>
+            <el-icon>
+              <HotWater />
+            </el-icon>
+            <span>用户管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item
+              @click="clickMenu(item.path)"
+              v-for="item in UsersDataList"
+              :key="item.name"
+              :index="item.name"
+            >
+              <i :class="`el-icon-${item.icon}`"></i>
+              <template v-slot:title>
+                <span>{{ item.name }}</span>
+              </template>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-sub-menu>
       </el-menu>
     </el-col>
   </view>
@@ -259,6 +325,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { tabClick, userStore } from '@/stores'
 import ArticleList from '@/views/Admin/back/article/ArticleList.vue'
+import BannerList from '@/views/Admin/back/banner/BannerList.vue'
 // import router from '@/router'
 //获取当前登录用户权限 如果权限不足则不能进入对应页面
 const userMessage = userStore()
@@ -270,14 +337,14 @@ const router = useRouter()
 const tab = tabClick()
 
 //导航栏标题
-const loadName = ref<string>('CESP')
+const loadName = ref<string>('Compus')
 // 控制导航栏的伸缩
 const isCollerapse = () => {
   const tabList = ref<boolean>(tab.tab)
   if (tabList.value) {
-    loadName.value = 'CESP'
+    loadName.value = 'Compus'
   } else {
-    loadName.value = 'Canadian Educational Science Press'
+    loadName.value = '开源校区'
   }
   return tabList.value
 }
@@ -300,26 +367,26 @@ const ArticleDataList = ref([
   }
 ])
 
-//期刊页面列表
+//高校页面列表
 const JournalsDataList = ref([
   {
     path: '/back/journals/JournalsList',
-    name: '期刊列表',
-    label: '期刊列表',
+    name: '高校列表',
+    label: '高校列表',
     icon: 's-home',
     url: 'JournalsList/JournalsList'
   },
   {
     path: '/back/journals/JournalsCreate',
-    name: '创建期刊',
-    label: '创建期刊',
+    name: '创建高校',
+    label: '创建高校',
     icon: 's-home',
     url: 'JournalsList/JournalsList'
   },
   {
     path: '/back/journals/JournalsListOther',
-    name: '期刊导航栏',
-    label: '期刊导航栏',
+    name: '高校导航栏',
+    label: '高校导航栏',
     icon: 's-home',
     url: 'JournalsListOther/JournalsListOther'
   }
@@ -343,19 +410,19 @@ const TeamDataList = ref([
   }
 ])
 
-//编委会页面列表
+//编辑人员页面列表
 const EditorialDataList = ref([
   {
     path: '/back/editorial/EditorialList',
-    name: '编委会列表',
-    label: '编委会列表',
+    name: '编辑人员列表',
+    label: '编辑人员列表',
     icon: 's-home',
     url: 'TeamList/TeamList'
   },
   {
     path: '/back/editorial/EditorialCreate',
-    name: '创建新编委会成员',
-    label: '创建新编委会成员',
+    name: '创建新编辑人员成员',
+    label: '创建新编辑人员成员',
     icon: 's-home',
     url: 'TeamCreate/TeamCreate'
   }
@@ -376,6 +443,42 @@ const NewsDataList = ref([
     label: '添加新闻',
     icon: 's-home',
     url: 'NewsCreate/NewsCreate'
+  }
+])
+
+//开源项目页面列表
+const ProjectDataList = ref([
+  {
+    path: '/back/project/ProjectList',
+    name: '开源项目列表',
+    label: '开源项目列表',
+    icon: 's-home',
+    url: 'Project/ProjectList'
+  },
+  {
+    path: '/back/project/ProjectCreate',
+    name: '开源项目',
+    label: '开源项目',
+    icon: 's-home',
+    url: 'ProjectCreate/ProjectCreate'
+  }
+])
+
+//开源项目页面列表
+const UsersDataList = ref([
+  {
+    path: '/back/users/UsersList',
+    name: '用户列表',
+    label: '用户列表',
+    icon: 's-home',
+    url: 'Project/ProjectList'
+  },
+  {
+    path: '/back/users/UsersCreate',
+    name: '用户创建',
+    label: '用户创建',
+    icon: 's-home',
+    url: 'ProjectCreate/ProjectCreate'
   }
 ])
 
@@ -418,7 +521,7 @@ const NoticeDataList = ref([
 //首页修改
 const IndexDataList = ref([
   {
-    path: '/back/index/IndexUpdate',
+    path: '/back/back/IndexUpdate',
     name: '首页修改',
     label: '首页修改',
     icon: 's-home',
@@ -447,6 +550,21 @@ const AdminDataList = ref([
     url: 'AdminList/AdminList'
   }
 ])
+
+//轮播图
+const bannerList = ref([{
+  path: '/back/Banner',
+  name: '轮播图列表',
+  label: '轮播图列表',
+  icon: 's-home',
+  url: 'ActiveListComponents/ActiveListComponents'
+}, {
+  path: '/back/BannerCreate',
+  name: '创建轮播图',
+  label: '创建轮播图',
+  icon: 's-home',
+  url: 'ActiveComponents/ActiveComponents'
+}])
 
 //点击跳转页面设置
 const clickMenu = (path: string) => {

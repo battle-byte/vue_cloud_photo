@@ -4,7 +4,7 @@
       >save the article
     </el-button>
     <div>作者须知</div>
-    <div>正在编辑期刊: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
+    <div>正在编辑高校: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
     <el-container style="height: 100%">
       <el-row style="height: 4000px; width: 847.5px">
         <main id="sample" class="item" style="width: 847.5px">
@@ -79,7 +79,7 @@ const saveAboutJournals = async () => {
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改期刊的作者须知内容',
+      message: '成功修改高校的作者须知内容',
       type: 'success'
     })
     router.push({

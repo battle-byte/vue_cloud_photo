@@ -6,14 +6,14 @@ export type Article = {
   intro?: string // 简介
   content?: string // 内容
   author?: string // 作者
-  periodical?: string // 期刊id
+  periodical?: string // 高校id
   doi?: string // 文章发表路径
   publishTime?: string // 发布时间
   postAvatar?: string // 头像
   views?: number // 阅读量
   upload?: number // 下载量
   kuote?: number // 引用量
-  model?: string // 收费模式
+  model?: string // 高校名称
   status?: number // 状态 类型
   isPublish?: number //文章状态  0 发布 1不发布
   perfect?: number //精选文章  0不是 1是
@@ -40,7 +40,7 @@ export type UpdateArticle = {
   views?: number // 阅读量
   upload?: number // 下载量
   kuote?: number // 引用量
-  model?: string // 收费模式
+  model?: string // 高校名称
   status?: string // 状态 类型
   mainIntro?: string // 摘要概括
   volume?: number // 第几期
@@ -57,15 +57,15 @@ export type ArticleQueryAndPeriodicalVO = {
   intro?: string // 简介
   content?: string // 内容
   author?: string // 作者
-  periodical?: string // 所属期刊id
-  periodicalName?: string // 所属期刊名称
+  periodical?: string // 所属高校id
+  periodicalName?: string // 所属高校名称
   doi?: string // 文章发表路径
   publishTime?: string // 发布时间
   postAvatar?: string // 头像
   views?: number // 阅读量
   upload?: number // 下载量
   kuote?: number // 引用量
-  model?: string // 收费模式
+  model?: string // 高校名称
   status?: number // 状态 类型
   isPublish?: number //文章状态  0 发布 1不发布
   perfect?: number //精选文章  0不是 1是
@@ -84,7 +84,7 @@ export type ArticleQueryByPageParam = {
   title?: string // 标题
   author?: string // 作者
   isPublish?: string //文章状态  0 发布 1不发布
-  periodical?: string // 所属期刊id
+  periodical?: string // 所属高校id
   page?: number
   pageSize?: number
 }
@@ -119,7 +119,7 @@ export type ArticleQueryVO = {
   views?: number // 阅读量
   upload?: number // 下载量
   kuote?: number // 引用量
-  model?: string // 收费模式
+  model?: string // 高校名称
   status?: string // 状态 类型
   pdf?: string
   word?: string
@@ -142,7 +142,7 @@ export type ArticleBaseEditParam = {
   views?: number // 阅读量
   upload?: number // 下载量
   kuote?: number // 引用量
-  model?: string // 收费模式
+  model?: string // 高校名称
   status?: string // 状态 类型
   mainIntro?: string // 摘要概括
   volume?: number // 第几期

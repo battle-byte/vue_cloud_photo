@@ -3,12 +3,12 @@
     <!--对话框 用于确认是否删除对应页面-->
     <el-dialog
       v-model="deleteDialogFormVisible"
-      title="删除编委会成员"
+      title="删除编辑人员成员"
       width="500"
       :before-close="handleClose"
     >
       <el-col>
-        <span>确认删除编委会成员</span>
+        <span>确认删除编辑人员成员</span>
         <span>ID:{{ deleteEditorialId.eid }}</span>
         <span>名称:{{ deleteEditorialId.eName }}</span>
       </el-col>
@@ -22,18 +22,18 @@
     </el-dialog>
 
     <div class="flex gap-4 mb-4">
-      <span style="padding-top: 5px">编委会成员ID</span>
+      <span style="padding-top: 5px">编辑人员成员ID</span>
       <el-input
         v-model="searchEditorial.eid"
         style="width: 240px"
-        placeholder="请输入编委会ID"
+        placeholder="请输入编辑人员ID"
         :suffix-icon="Search"
       />
-      <span style="padding-top: 5px">编委会成员名称</span>
+      <span style="padding-top: 5px">编辑人员成员名称</span>
       <el-input
         v-model="searchEditorial.eName"
         style="width: 240px"
-        placeholder="编委会成员名称"
+        placeholder="编辑人员成员名称"
         :prefix-icon="Search"
       />
       <el-button type="primary" @click="searchEditorialList">搜索</el-button>
@@ -111,7 +111,7 @@ const searchEditorial = ref<EditorialQueryByPageParam>({})
 //表格数据
 const tableData = ref<EditorialQueryVO[]>([])
 
-//编委会状态数据格式化  0 不发布 1已发布
+//编辑人员状态数据格式化  0 不发布 1已发布
 const resultFormatPublish = (value: number) => {
   if (value == 1) {
     return `已发布`
@@ -121,12 +121,12 @@ const resultFormatPublish = (value: number) => {
     return '未知'
   }
 }
-// 编委会状态品质状态
+// 编辑人员状态品质状态
 const resultFormatPerfect = (value: number) => {
   if (value == 1) {
-    return `精品编委会`
+    return `精品编辑人员`
   } else if (value == 0) {
-    return `普通编委会`
+    return `普通编辑人员`
   } else {
     return '未知'
   }
@@ -151,7 +151,7 @@ const getEditorialList = async (page: number, pageSize: number) => {
     //将后端的内容添加到集合内
     tableData.value = res.data.records
     pageCount.value = res.data.total
-    ElMessage.success('已更新编委会数据')
+    ElMessage.success('已更新编辑人员数据')
   } else {
   }
 }

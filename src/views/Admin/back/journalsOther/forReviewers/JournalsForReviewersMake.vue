@@ -4,7 +4,7 @@
       >save the ForReviewers
     </el-button>
     <div style="margin-bottom: 10px">
-      正在编辑期刊: {{ props.jid }}的ForReviewers栏 期刊标题:{{ forReviewersMessage.journalsName }}
+      正在编辑高校: {{ props.jid }}的ForReviewers栏 高校标题:{{ forReviewersMessage.journalsName }}
     </div>
     <div style="margin-bottom: 10px">
       正在编辑的ForReviewers栏ID: {{ forReviewersMessage.aid }} ForReviewers栏标题:{{
@@ -92,7 +92,7 @@ const saveArticle = async () => {
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改期刊ForReviewers栏内容',
+      message: '成功修改高校ForReviewers栏内容',
       type: 'success'
     })
     router.back()

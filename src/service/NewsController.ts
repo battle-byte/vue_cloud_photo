@@ -41,6 +41,7 @@ export const SaveNewsBaseAPI = (
   return service.post(`/news/saveNews`, data)
 }
 
+
 // SaveNewsBaseAPI 修改新闻核心内容
 export const EditNewsContentAPi = (
   data: NewsContentEditDTO
@@ -48,7 +49,7 @@ export const EditNewsContentAPi = (
   return service.post(`/news/editNewsContent`, data)
 }
 
-// deleteNewsIdAPI 删除期刊
+// deleteNewsIdAPI 删除高校
 export const deleteNewsIdAPI = (id: string): Promise<ApiResponse<string>> | Promise<never> => {
   return service.get(`/news/delete/${id}`)
 }

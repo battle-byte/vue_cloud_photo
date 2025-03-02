@@ -4,7 +4,7 @@
       >save the SpecialIssue
     </el-button>
     <div style="margin-bottom: 10px">
-      正在编辑期刊: {{ props.jid }}的SpecialIssue栏 期刊标题:{{ specialIssueMessage.journalsName }}
+      正在编辑高校: {{ props.jid }}的SpecialIssue栏 高校标题:{{ specialIssueMessage.journalsName }}
     </div>
     <div style="margin-bottom: 10px">
       正在编辑的SpecialIssue栏ID: {{ specialIssueMessage.aid }} SpecialIssue栏标题:{{
@@ -94,7 +94,7 @@ const saveArticle = async () => {
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改期刊SpecialIssue栏内容',
+      message: '成功修改高校SpecialIssue栏内容',
       type: 'success'
     })
     router.back()

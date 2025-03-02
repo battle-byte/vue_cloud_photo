@@ -36,11 +36,11 @@
         placeholder="文章标题"
         :prefix-icon="Search"
       />
-      <span style="padding-top: 5px">期刊ID</span>
+      <span style="padding-top: 5px">高校ID</span>
       <el-input
         v-model="searchArticle.periodical"
         style="width: 240px"
-        placeholder="期刊ID"
+        placeholder="高校ID"
         :prefix-icon="Search"
       />
       <span style="padding-top: 5px">文章发布状态</span>
@@ -75,8 +75,8 @@
             <el-image :src="scope.row.postAvatar" style="width: 204.52px; height: 140px" />
           </template>
         </el-table-column>
-        <el-table-column prop="periodical" label="所属期刊id" width="180" />
-        <el-table-column prop="periodicalName" label="所属期刊名称" width="250" />
+        <el-table-column prop="periodical" label="所属高校id" width="180" />
+        <el-table-column prop="periodicalName" label="所属高校名称" width="250" />
         <el-table-column prop="volume" label="期数" width="100" />
         <el-table-column prop="archivist" label="是否归档" width="150">
           <template #default="scope">
@@ -89,8 +89,8 @@
         <el-table-column prop="views" label="阅读量" width="150" />
         <el-table-column prop="upload" label="下载量" width="150" />
         <el-table-column prop="kuote" label="引用量" width="150" />
-        <el-table-column prop="model" label="收费模式" width="150" />
-        <el-table-column prop="status" label="状态" width="150" />
+        <el-table-column prop="model" label="高校名称" width="150" />
+        <el-table-column prop="status" label="标签" width="150" />
         <el-table-column prop="word" label="Word" width="200">
           <template #default="scope">
             <span v-if="scope.row.word === ''">未上传Word文件 </span>

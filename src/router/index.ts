@@ -44,6 +44,19 @@ import MembershipCreate from '@/views/Admin/back/membership/MembershipCreate.vue
 import MembershipUpdate from '@/views/Admin/back/membership/MembershipUpdate.vue'
 import { userStore } from '@/stores'
 import NoticeCreate from '@/views/Admin/back/notice/NoticeCreate.vue'
+import UserIndex from '@/views/User/UserIndex.vue'
+import UserIndexHome from '@/views/User/back/UserIndexHome.vue'
+import BannerList from '@/views/Admin/back/banner/BannerList.vue'
+import BannerCreate from '@/views/Admin/back/banner/BannerCreate.vue'
+import BannerUpdate from '@/views/Admin/back/banner/BannerUpdate.vue'
+import ProjectList from '@/views/Admin/back/project/ProjectList.vue'
+import ProjectCreate from '@/views/Admin/back/project/ProjectCreate.vue'
+import MakeProjectPage from '@/views/Admin/back/project/MakeProjectPage.vue'
+import ProjectUpdate from '@/views/Admin/back/project/ProjectUpdate.vue'
+import UsersList from '@/views/Admin/back/users/UsersList.vue'
+import UsersCreate from '@/views/Admin/back/users/UsersCreate.vue'
+import UsersUpdate from '@/views/Admin/back/users/UsersUpdate.vue'
+import MakeUsersPage from '@/views/Admin/back/users/MakeUsersPage.vue'
 // createRouter创建路由实例
 // 配置history模式
 // 1. history模式：createWebHistory 地址栏不带#
@@ -83,18 +96,18 @@ const router = createRouter({
           component: ArticleCreate
         }, // 创建文章基本内容列表
 
-        ///////////////// 期刊路由
-        // 期刊列表
+        ///////////////// 高校路由
+        // 高校列表
         {
           path: '/back/journals/JournalsList',
           name: 'JournalsList',
           component: JournalsList
-        }, // 期刊创建
+        }, // 高校创建
         {
           path: '/back/journals/JournalsCreate',
           name: 'JournalsCreate',
           component: JournalsCreate
-        }, // 期刊更新
+        }, // 高校更新
         {
           path: '/back/journals/JournalsEdit/:id',
           name: 'JournalsUpdate',
@@ -102,7 +115,7 @@ const router = createRouter({
           component: JournalsUpdate
         },
         {
-          // 期刊添加文章
+          // 高校添加文章
           path: '/back/journals/JournalsArticle/:id',
           name: 'JournalsAddArticleList',
           props: true,
@@ -113,16 +126,16 @@ const router = createRouter({
           name: 'JournalsAddEditorial',
           props: true,
           component: JournalsAddEditorial
-        }, // 期刊添加编辑
+        }, // 高校添加编辑
 
-        ///////////// 期刊导航栏编辑
+        ///////////// 高校导航栏编辑
         {
           path: '/back/journals/JournalsListOther',
           name: 'JournalsListOther',
           component: JournalsListOther
-        }, // 期刊添加编辑
+        }, // 高校添加编辑
 
-        ////////////////// 期刊添加导航栏路
+        ////////////////// 高校添加导航栏路
         //// About 路由
         {
           path: '/back/journalsOther/JournalsAboutList/:id',
@@ -209,21 +222,21 @@ const router = createRouter({
           props: true,
           component: TeamUpdate
         },
-        ///////// 编委会
+        ///////// 编辑人员
         {
-          // 编委会列表
+          // 编辑人员列表
           path: '/back/editorial/EditorialList',
           name: 'EditorialList',
           component: EditorialList
         },
         {
-          //编委会创建
+          //编辑人员创建
           path: '/back/editorial/EditorialCreate',
           name: 'EditorialCreate',
           component: EditorialCreate
         },
         {
-          // 编委会信息修改
+          // 编辑人员信息修改
           path: '/back/editorial/EditorialUpdate/:id',
           name: 'EditorialUpdate',
           props: true,
@@ -255,6 +268,33 @@ const router = createRouter({
           name: 'MakeNewsPage',
           props: true,
           component: MakeNewsPage
+        },
+        /////////// 开源项目
+        {
+          // 开源项目列表
+          path: '/back/project/ProjectList',
+          name: 'ProjectList',
+          component: ProjectList
+        },
+        {
+          //开源项目创建
+          path: '/back/project/ProjectCreate',
+          name: 'ProjectCreate',
+          component: ProjectCreate
+        },
+        {
+          // 开源项目基础信息修改
+          path: '/back/project/ProjectUpdate/:id',
+          name: 'ProjectUpdate',
+          props: true,
+          component: ProjectUpdate
+        },
+        {
+          // 开源项目核心内容修改
+          path: '/back/project/MakeProjectPage/:id',
+          name: 'MakeProjectPage',
+          props: true,
+          component: MakeProjectPage
         },
         /////////// 伙伴关系
         {
@@ -299,13 +339,13 @@ const router = createRouter({
         // 首页
         {
           // 公告列表
-          path: '/back/index/IndexUpdate',
+          path: '/back/back/IndexUpdate',
           name: 'IndexUpdate',
           component: IndexUpdate
         },
-        // 作者须知 和 关于期刊 期刊目的
+        // 作者须知 和 关于高校 高校目的
         {
-          // 关于期刊
+          // 关于高校
           path: '/back/aboutJournals/MakeAboutJournalsPage/:id',
           name: 'MakeAboutJournalsPage',
           props: true,
@@ -319,7 +359,7 @@ const router = createRouter({
           component: MakeAboutJournalsAuthorPage
         },
         {
-          // 期刊目的
+          // 高校目的
           path: '/back/aboutJournals/MakeAboutJournalsAimsAndScorePage/:id',
           name: 'MakeAboutJournalsAimsAndScorePage',
           props: true,
@@ -332,13 +372,44 @@ const router = createRouter({
           name: 'UserArticleList',
           component: UserArticleList
         },
-        // 用户提交信息
+        // 管理员页面
         {
-          // 作者须知
+          // 管理员页面
           path: '/back/admin/AdminList',
           name: 'AdminList',
-          component: AdminList
-        }
+          component: AdminList,
+        },
+        ///////////  用户界面
+        {
+          // 用户列表
+          path: '/back/users/UsersList',
+          name: 'UsersList',
+          component: UsersList
+        },
+        {
+          //用户创建
+          path: '/back/users/UsersCreate',
+          name: 'UsersCreate',
+          component: UsersCreate
+        },
+        {
+          // 用户基础信息修改
+          path: '/back/users/UsersUpdate/:id',
+          name: 'UsersUpdate',
+          props: true,
+          component: UsersUpdate
+        },
+        {
+          // 用户介绍修改
+          path: '/back/users/MakeUsersPage/:id',
+          name: 'MakeUsersPage',
+          props: true,
+          component: MakeUsersPage
+        },
+        //轮播图
+        { path: '/back/Banner', name: 'banners', component: BannerList },//轮播图列表
+        { path: '/back/BannerCreate', name: 'BannerCreate', component: BannerCreate },//轮播图创建
+        { path: '/back/BannerUpdate/:id', name: 'BannerUpdate', props: true, component: BannerUpdate },//轮播图编辑
       ]
     },
     {
@@ -348,9 +419,16 @@ const router = createRouter({
     },
     {
       path: '/',
-      name: 'login2',
+      name: 'user',
       // redirect: '/login',
-      component: LoginPage
+      component: UserIndex,
+      children:[
+        {
+          path: '/',
+          name: 'userIndex',
+          component: UserIndexHome
+        }, // 修改文章内容
+      ]
     }
   ]
 })
@@ -364,8 +442,8 @@ router.beforeEach((to, form, next) => {
     //管理员和用户token不存在并且页面是login 不跳转
     next()
     return
-  } else if (!userToken && !userToken && to.name !== 'login') {
-    //管理员和用户token不存在 并且页面不是登录页面 跳转到登录页面
+  } else if (!userToken && !userToken && to.name === 'admin') {
+    //管理员和用户token不存在 并且页面是后台页面 跳转到登录页面
     next('/login')
     return
   } else {

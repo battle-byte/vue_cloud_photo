@@ -30,7 +30,7 @@ export const SaveTeamBaseAPI = (
   return service.post(`/team/saveTeam`, data)
 }
 
-// deleteTeamIdAPI 删除期刊
+// deleteTeamIdAPI 删除高校
 export const deleteTeamIdAPI = (id: string): Promise<ApiResponse<string>> | Promise<never> => {
   return service.get(`/team/delete/${id}`)
 }

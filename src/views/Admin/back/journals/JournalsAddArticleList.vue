@@ -2,7 +2,7 @@
   <view>
     <div style="margin-bottom: 10px">
       <el-col>
-        <text style="font-size: 20px">正在添加文章的期刊:{{ journalsMessage.jid }}</text>
+        <text style="font-size: 20px">正在添加文章的高校:{{ journalsMessage.jid }}</text>
         <div style="font-size: 20px" >{{ journalsMessage.journalsName }}</div>
       </el-col>
     </div>
@@ -21,10 +21,10 @@
         placeholder="文章标题"
         :prefix-icon="Search"
       />
-      <span style="padding-top: 5px">文章所属期刊状态</span>
+      <span style="padding-top: 5px">文章所属高校状态</span>
       <el-select
         v-model="searchArticle.periodical"
-        placeholder="筛选是否属于该期刊的文章"
+        placeholder="筛选是否属于该高校的文章"
         style="width: 240px"
       >
         <el-option
@@ -54,8 +54,8 @@
         </el-table-column>
         <!--        <el-table-column prop="doi" label="doi" width="150" />-->
         <el-table-column prop="publishTime" label="发布时间" width="200" />
-        <el-table-column prop="periodical" label="所属期刊id" width="150" />
-        <el-table-column prop="periodicalName" label="所属期刊名称" width="150" />
+        <el-table-column prop="periodical" label="所属高校id" width="150" />
+        <el-table-column prop="periodicalName" label="所属高校名称" width="150" />
         <el-table-column label="操作" width="500">
           <template #default="scope">
             <el-button
@@ -63,7 +63,7 @@
               type="primary"
               @click="JournalsAddArticle(scope.row)"
               v-if="scope.row.periodical !== journalsMessage.jid"
-              >加入该期刊
+              >加入该高校
             </el-button>
             <el-button
               size="small"
@@ -123,11 +123,11 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => ''
 })
 
-//期刊泛型
+//高校泛型
 const journalsMessage = ref<JournalsQueryVO>({})
-//获取期刊基础内容
+//获取高校基础内容
 
-// 搜索期刊内容
+// 搜索高校内容
 const getJournalsOne = async () => {
   let res = await SelectJournalsByIdAPI(props.id)
   if (res.code === 0) {
@@ -175,7 +175,7 @@ const resultFormatPerfect = (value: number) => {
 const publishOptions = [
   {
     value: props.id,
-    label: '本期刊'
+    label: '本高校'
   },
   {
     value: '',
@@ -186,7 +186,7 @@ const publishOptions = [
 // 添加文章
 const JournalsAddArticle = async (articleQueryAndPeriodicalVO: ArticleQueryAndPeriodicalVO) => {
   if (articleQueryAndPeriodicalVO.periodical === journalsMessage.value.jid) {
-    ElMessage.error('文章已添加到本期刊')
+    ElMessage.error('文章已添加到本高校')
     return
   }
   console.log("periodical",articleQueryAndPeriodicalVO.periodical)
@@ -204,7 +204,7 @@ const JournalsAddArticle = async (articleQueryAndPeriodicalVO: ArticleQueryAndPe
 // 移除文章
 const JournalsRemoveArticle = async (articleQueryAndPeriodicalVO: ArticleQueryAndPeriodicalVO) => {
   if (articleQueryAndPeriodicalVO.periodical !== journalsMessage.value.jid) {
-    ElMessage.error('文章不在本期刊内')
+    ElMessage.error('文章不在本高校内')
     return
   }
   const res = await JournalsRemoveArticleAPI({

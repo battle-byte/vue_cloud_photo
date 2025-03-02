@@ -1,5 +1,5 @@
 export type SpecialIssue = {
-  // 关于期刊
+  // 关于高校
   id?: string
   isDelete?: number
   aid?: string
@@ -8,7 +8,7 @@ export type SpecialIssue = {
   content?: string
 }
 
-// SpecialIssueParam 期刊介绍类回查询
+// SpecialIssueParam 高校介绍类回查询
 export type SpecialIssueParam = {
   aid?: string
   jid?: string
@@ -17,13 +17,13 @@ export type SpecialIssueParam = {
   pageSize?: number
 }
 
-// SpecialIssueVO 期刊介绍类回显
+// SpecialIssueVO 高校介绍类回显
 export type SpecialIssueVO = {
   aid?: string
   name?: string
 }
 
-// SpecialIssueContent 期刊介绍类内容回显
+// SpecialIssueContent 高校介绍类内容回显
 export type SpecialIssueContent = {
   aid?: string
   journalsName?: string
@@ -31,20 +31,20 @@ export type SpecialIssueContent = {
   content?: string
 }
 
-// SpecialIssueContent 期刊介绍类内容保存
+// SpecialIssueContent 高校介绍类内容保存
 export type SpecialIssueContentEdit = {
   aid?: string
   name?: string
   content?: string
 }
 
-// SpecialIssueContent 期刊介绍类删除回显
+// SpecialIssueContent 高校介绍类删除回显
 export type SpecialIssueDelete = {
   aid?: string
   name?: string
 }
 
-// SelectOrInSaveSpecialIssue 保存或查询 期刊介绍类
+// SelectOrInSaveSpecialIssue 保存或查询 高校介绍类
 export type SelectOrInSaveSpecialIssue = {
   aid?: string
   jid?: string

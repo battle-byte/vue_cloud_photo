@@ -1,5 +1,5 @@
 export type About = {
-  // 关于期刊
+  // 关于高校
   id?: string
   isDelete?: number
   aid?: string
@@ -8,7 +8,7 @@ export type About = {
   content?: string
 }
 
-// AboutParam 期刊介绍类回查询
+// AboutParam 高校介绍类回查询
 export type AboutParam = {
   aid?: string
   jid?: string
@@ -17,13 +17,13 @@ export type AboutParam = {
   pageSize?: number
 }
 
-// AboutVO 期刊介绍类回显
+// AboutVO 高校介绍类回显
 export type AboutVO = {
   aid?: string
   name?: string
 }
 
-// AboutContent 期刊介绍类内容回显
+// AboutContent 高校介绍类内容回显
 export type AboutContent = {
   aid?: string
   journalsName?: string
@@ -31,20 +31,20 @@ export type AboutContent = {
   content?: string
 }
 
-// AboutContent 期刊介绍类内容保存
+// AboutContent 高校介绍类内容保存
 export type AboutContentEdit = {
   aid?: string
   name?: string
   content?: string
 }
 
-// AboutContent 期刊介绍类删除回显
+// AboutContent 高校介绍类删除回显
 export type AboutDelete = {
   aid?: string
   name?: string
 }
 
-// SelectOrInSaveAbout 保存或查询 期刊介绍类
+// SelectOrInSaveAbout 保存或查询 高校介绍类
 export type SelectOrInSaveAbout = {
   aid?: string
   jid?: string

@@ -12,7 +12,7 @@
     <el-form :rules="rules" :model="newsMessage" ref="form" size="large" autocomplete="off">
       <el-form-item>
         <el-upload
-          class="upload-demo"
+          class="upload-demo" ubh
           :limit="1"
           :show-file-list="false"
           :http-request="addPhoto"
@@ -112,7 +112,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 
-//编委会图片上传
+//编辑人员图片上传
 const addPhoto = async (files: any) => {
   let fromData = new FormData()
   fromData.append('file', files.file)
@@ -139,7 +139,7 @@ const addPhoto = async (files: any) => {
   // urls.value.push(res.data)
 }
 
-//编委会泛型
+//编辑人员泛型
 const newsMessage = ref<NewsBaseEditParam>({})
 
 //表单校验

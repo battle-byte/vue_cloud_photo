@@ -64,7 +64,7 @@
         <el-table-column prop="lastName" label="LastName" width="200" />
         <el-table-column prop="email" label="Email" width="200" />
         <el-table-column prop="title" label="用户文章标题" width="200" />
-        <el-table-column prop="journal" label="要投递的期刊" width="200" />
+        <el-table-column prop="journal" label="要投递的高校" width="200" />
         <el-table-column prop="file" label="用户文件" width="200">
           <template #default="scope">
             <el-link :href="scope.row.file" type="primary" target="_blank">下载</el-link>

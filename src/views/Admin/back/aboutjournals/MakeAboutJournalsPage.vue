@@ -3,8 +3,8 @@
     <el-button type="primary" @click="saveAboutJournals()" style="margin-bottom: 10px"
       >save the article
     </el-button>
-    <div>关于期刊</div>
-    <div>正在编辑期刊: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
+    <div>关于高校</div>
+    <div>正在编辑高校: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
     <el-container style="height: 100%">
       <el-row style="height: 4000px; width: 847.5px">
         <main id="sample" class="item" style="width: 847.5px">
@@ -66,7 +66,7 @@ const aboutJournalsMessage = ref<AboutJournalsVO>({
 const selectAboutJournalsContent = async () => {
   const res = await SelectAboutJournalsAPI({
     jid: props.id,
-    status: 0 // 关于期刊
+    status: 0 // 关于高校
   })
   if (res.code === 0) {
     aboutJournalsMessage.value = res.data
@@ -83,7 +83,7 @@ const saveAboutJournals = async () => {
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改期刊的关于期刊内容',
+      message: '成功修改高校的关于高校内容',
       type: 'success'
     })
     router.push({

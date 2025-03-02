@@ -1,7 +1,7 @@
 export type Editorial = {
-  // 编委会信息
+  // 编辑人员信息
   id?: string
-  eid?: string // 编委会id
+  eid?: string // 编辑人员id
   eName?: string // 名称
   ePhoto?: string // 照片
   comment?: string // 简介

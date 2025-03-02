@@ -2,7 +2,7 @@
   <view class="Admin">
     <div style="width: 1000px">
       <div style="margin-bottom: 20px; background-color: #f2f2f2; font-size: 20px">
-        正在创建新的期刊
+        正在创建新的高校
       </div>
     </div>
     <el-form :rules="rules" :model="journalsMessage" ref="form" size="large" autocomplete="off">
@@ -65,7 +65,7 @@
             <el-date-picker
               v-model="journalsMessage.launched"
               type="datetime"
-              placeholder="期刊发布时间"
+              placeholder="高校发布时间"
               format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DD HH:mm:ss"
             />
@@ -103,11 +103,11 @@
       </el-form-item>
       <el-form-item prop="journalsName">
         <div style="display: flex">
-          <span style="padding-right: 10px; font-size: 18px">期刊名称</span>
+          <span style="padding-right: 10px; font-size: 18px">高校名称</span>
           <el-input
             v-model="journalsMessage.journalsName"
             style="width: 1000px"
-            placeholder="期刊名称"
+            placeholder="高校名称"
           />
           <view style="padding-right: 50px" />
           <el-button
@@ -281,7 +281,7 @@ const rules = {
   journalsName: [
     {
       required: true,
-      message: '期刊名称不能为空',
+      message: '高校名称不能为空',
       trigger: 'change'
     }
   ],
@@ -371,14 +371,14 @@ const rules = {
   ]
 }
 
-//提交期刊前的校验并且校验成功后
+//提交高校前的校验并且校验成功后
 const submitSave = async (formE: InstanceType<typeof FormInstance> | undefined) => {
   if (!formE) return
   await formE.validate((valid: any, fields: any) => {
     if (valid) {
       //提示成功信息
       ElMessage({
-        message: '正在提交期刊内容,切勿重复保存',
+        message: '正在提交高校内容,切勿重复保存',
         type: 'success'
       })
       SaveArticle()
@@ -396,13 +396,13 @@ const onlyPid = async () => {
   }
 }
 
-// 保存期刊内容
+// 保存高校内容
 const SaveArticle = async () => {
   const res = await SaveJournalsAPI({
     ...journalsMessage.value
   })
   if (res.code == 0) {
-    ElMessage.success('期刊创建成功!')
+    ElMessage.success('高校创建成功!')
     router.push({
       path: '/back/journals/JournalsList'
     })

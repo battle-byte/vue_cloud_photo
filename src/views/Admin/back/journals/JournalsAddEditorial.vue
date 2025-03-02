@@ -2,30 +2,30 @@
   <view>
     <div style="margin-bottom: 10px">
       <el-col>
-        <text style="font-size: 20px">正在添加编委会成员的期刊:{{ journalsMessage.jid }}</text>
+        <text style="font-size: 20px">正在添加编辑人员成员的高校:{{ journalsMessage.jid }}</text>
         <div style="font-size: 20px">{{ journalsMessage.journalsName }}</div>
       </el-col>
     </div>
     <div class="flex gap-4 mb-4">
-      <span style="padding-top: 5px">期刊ID</span>
+      <span style="padding-top: 5px">高校ID</span>
       <el-input
         v-model="searchEditorial.jid"
         style="width: 240px"
-        placeholder="请输入期刊ID"
+        placeholder="请输入高校ID"
         :suffix-icon="Search"
       />
-      <span style="padding-top: 5px">编委会成员ID</span>
+      <span style="padding-top: 5px">编辑人员成员ID</span>
       <el-input
         v-model="searchEditorial.eid"
         style="width: 240px"
-        placeholder="请输入编委会成员ID"
+        placeholder="请输入编辑人员成员ID"
         :suffix-icon="Search"
       />
-      <span style="padding-top: 5px">编委会成员名称</span>
+      <span style="padding-top: 5px">编辑人员成员名称</span>
       <el-input
         v-model="searchEditorial.eName"
         style="width: 240px"
-        placeholder="编委会成员名称"
+        placeholder="编辑人员成员名称"
         :prefix-icon="Search"
       />
       <el-button type="primary" @click="searchEditorialList">搜索</el-button>
@@ -44,7 +44,7 @@
         </el-table-column>
         <el-table-column prop="sections" label="评价" width="400" />
         <el-table-column prop="comment" label="简介" width="300" />
-        <el-table-column prop="rank" label="编委会成员状态" width="150">
+        <el-table-column prop="rank" label="编辑人员成员状态" width="150">
           <template #default="scope">
             <span v-html="resultFormatEditorial(scope.row.rank)"> </span>
           </template>
@@ -77,7 +77,7 @@
               type="danger"
               @click="JournalsRemoveEditorial(scope.row)"
               v-if="scope.row.rank === 1 || scope.row.rank === 2 || scope.row.rank === 3"
-              >从该期刊移除
+              >从该高校移除
             </el-button>
           </template>
         </el-table-column>
@@ -98,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-//编委会的基本信息
+//编辑人员的基本信息
 import { onMounted, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { PageParams } from '@/types/Pages'
@@ -126,11 +126,11 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => ''
 })
 
-//期刊泛型
+//高校泛型
 const journalsMessage = ref<JournalsQueryVO>({})
-//获取期刊基础内容
+//获取高校基础内容
 
-// 搜索期刊内容
+// 搜索高校内容
 const getJournalsOne = async () => {
   let res = await SelectJournalsByIdAPI(props.id)
   if (res.code === 0) {
@@ -153,7 +153,7 @@ const searchEditorial = ref<EditorialAndJournalsQueryParam>({})
 //表格数据
 const tableData = ref<EditorialAndJournalsQueryVO[]>([])
 
-//编委会成员状态数据格式化  0 不发布 1已发布
+//编辑人员成员状态数据格式化  0 不发布 1已发布
 const resultFormatEditorial = (value: number) => {
   if (value == 3) {
     return `成员`
@@ -162,11 +162,11 @@ const resultFormatEditorial = (value: number) => {
   } else if (value == 1) {
     return `主编`
   } else {
-    return '不属于该期刊'
+    return '不属于该高校'
   }
 }
 
-// 添加编委会成员
+// 添加编辑人员成员
 const JournalsAddEditorial = async (
   editorialQueryAndPeriodicalVO: EditorialAndJournalsQueryVO,
   rank: number
@@ -177,12 +177,12 @@ const JournalsAddEditorial = async (
     rank: rank
   })
   if (res.code === 0) {
-    //刷新编委会当页编委会信息
+    //刷新编辑人员当页编辑人员信息
     getEditorialList(editorialPage.value.page, editorialPage.value.pageSize)
   }
 }
 
-// 移除编委会成员
+// 移除编辑人员成员
 const JournalsRemoveEditorial = async (
   editorialQueryAndPeriodicalVO: EditorialAndJournalsQueryVO
 ) => {
@@ -191,12 +191,12 @@ const JournalsRemoveEditorial = async (
     jid: journalsMessage.value.jid
   })
   if (res.code === 0) {
-    //封禁成功刷新编委会当页编委会信息
+    //封禁成功刷新编辑人员当页编辑人员信息
     getEditorialList(editorialPage.value.page, editorialPage.value.pageSize)
   }
 }
 
-//获取编委会信息
+//获取编辑人员信息
 const getEditorialList = async (page: number, pageSize: number) => {
   const res = await SelectJournalsAndEditorialByPageAPI({
     eid: searchEditorial.value.eid,
@@ -210,7 +210,7 @@ const getEditorialList = async (page: number, pageSize: number) => {
     //将后端的内容添加到集合内
     tableData.value = res.data.records
     pageCount.value = res.data.total
-    ElMessage.success('已更新编委会成员数据')
+    ElMessage.success('已更新编辑人员成员数据')
   } else {
   }
 }

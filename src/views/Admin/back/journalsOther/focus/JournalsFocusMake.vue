@@ -4,7 +4,7 @@
       >save the Focus
     </el-button>
     <div style="margin-bottom: 10px">
-      正在编辑期刊: {{ props.jid }}的Focus栏 期刊标题:{{ focusMessage.journalsName }}
+      正在编辑高校: {{ props.jid }}的Focus栏 高校标题:{{ focusMessage.journalsName }}
     </div>
     <div style="margin-bottom: 10px">
       正在编辑的Focus栏ID: {{ focusMessage.aid }} Focus栏标题:{{ focusMessage.name }}
@@ -87,7 +87,7 @@ const saveArticle = async () => {
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改期刊Focus栏内容',
+      message: '成功修改高校Focus栏内容',
       type: 'success'
     })
     router.back()

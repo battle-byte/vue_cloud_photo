@@ -4,7 +4,7 @@
       >save the About
     </el-button>
     <div style="margin-bottom: 10px">
-      正在编辑期刊: {{ props.jid }}的About栏 期刊标题:{{ aboutMessage.journalsName }}
+      正在编辑高校: {{ props.jid }}的About栏 高校标题:{{ aboutMessage.journalsName }}
     </div>
     <div style="margin-bottom: 10px">
       正在编辑的About栏ID: {{ aboutMessage.aid }} About栏标题:{{ aboutMessage.name }}
@@ -87,7 +87,7 @@ const saveArticle = async () => {
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改期刊About栏内容',
+      message: '成功修改高校About栏内容',
       type: 'success'
     })
     router.back()

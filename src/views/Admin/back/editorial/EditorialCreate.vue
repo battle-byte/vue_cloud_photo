@@ -2,7 +2,7 @@
   <view class="Admin">
     <div style="width: 1000px">
       <div style="margin-bottom: 20px; background-color: #f2f2f2; font-size: 20px">
-        正在创建新的编委会成员
+        正在创建新的编辑人员成员
       </div>
     </div>
     <el-form :rules="rules" :model="editorialMessage" ref="form" size="large" autocomplete="off">
@@ -139,14 +139,14 @@ const rules = {
   ]
 }
 
-//提交编委会成员前的校验并且校验成功后
+//提交编辑人员成员前的校验并且校验成功后
 const submitSave = async (formE: InstanceType<typeof FormInstance> | undefined) => {
   if (!formE) return
   await formE.validate((valid: any, fields: any) => {
     if (valid) {
       //提示成功信息
       ElMessage({
-        message: '正在提交编委会成员内容,切勿重复保存',
+        message: '正在提交编辑人员成员内容,切勿重复保存',
         type: 'success'
       })
       SaveArticle()
@@ -164,13 +164,13 @@ const onlyPid = async () => {
   }
 }
 
-// 保存编委会成员内容
+// 保存编辑人员成员内容
 const SaveArticle = async () => {
   const res = await SaveEditorialBaseAPI({
     ...editorialMessage.value
   })
   if (res.code == 0) {
-    ElMessage.success('编委会成员创建成功!')
+    ElMessage.success('编辑人员成员创建成功!')
     router.push({
       path: '/back/editorial/EditorialList'
     })

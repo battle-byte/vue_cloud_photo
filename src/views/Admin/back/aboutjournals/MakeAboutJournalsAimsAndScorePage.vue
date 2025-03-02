@@ -4,7 +4,7 @@
       >save the article
     </el-button>
     <div>文章目的</div>
-    <div>正在编辑期刊: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
+    <div>正在编辑高校: {{ props.id }} 标题:{{ aboutJournalsMessage.journalsName }}</div>
     <el-container style="height: 100%">
       <el-row style="height: 4000px; width: 847.5px">
         <main id="sample" class="item" style="width: 847.5px">
@@ -63,7 +63,7 @@ const onMdChange = (v: string) => {
 const selectAboutJournalsContent = async () => {
   const res = await SelectAboutJournalsAPI({
     jid: props.id,
-    status: 2 // 期刊目的
+    status: 2 // 高校目的
   })
   if (res.code === 0) {
     aboutJournalsMessage.value = res.data
@@ -80,7 +80,7 @@ const saveAboutJournals = async () => {
   })
   if (res.code === 0) {
     ElMessage({
-      message: '成功修改期刊的期刊目的内容',
+      message: '成功修改高校的高校目的内容',
       type: 'success'
     })
     router.push({
