@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import AdminCommonHeader from '@/components/AdmineCommonHeader.vue'
-import AdminCommonAside from '@/components/AdminCommonAside.vue'
+import AdminCommonHeader from '@/components/admin/AdmineCommonHeader.vue'
+import AdminCommonAside from '@/components/admin/AdminCommonAside.vue'
 </script>
 
 <style scoped lang="less">

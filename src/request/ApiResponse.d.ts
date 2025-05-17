@@ -4,3 +4,9 @@ export type ApiResponse<T> = {
   data: T;
   message: string;
 }
+
+// 定义通用响应结构
+export type ApiResErrorResponse = {
+  code: number;
+  message: string;
+}

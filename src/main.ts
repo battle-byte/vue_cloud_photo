@@ -8,8 +8,10 @@ import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import 'virtual:windi.css'
 import pinia from './stores/index'
-import ArcoVue from '@arco-design/web-vue'
-import '@arco-design/web-vue/dist/arco.css'
+import  Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/reset.css';
+import  VueCropper  from 'vue-cropper'
+import 'vue-cropper/dist/index.css'
 // import 'amfe-flexible'
 
 const app = createApp(App)
@@ -17,6 +19,7 @@ const app = createApp(App)
 app.use(ElementPlus)
 app.use(router)
 app.use(pinia)
-app.use(ArcoVue)
+app.use(Antd)
 app.use(VueQuillEditor)
+app.use(VueCropper)
 app.mount('#app')

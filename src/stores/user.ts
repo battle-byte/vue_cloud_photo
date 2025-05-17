@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { UserLoginVO } from '@/types/Admin'
+import type { SysUserLoginResponse } from '@/types/Users'
 // 管理员 token setToken removeToken
 export const userStore = defineStore(
   'user',
   () => {
     //设置token
-    const user = ref<UserLoginVO>()
-    const setUser = (newToken: UserLoginVO) => {
+    const user = ref<SysUserLoginResponse>()
+    const setUser = (newToken: SysUserLoginResponse) => {
       user.value = newToken
     }
     //移除token

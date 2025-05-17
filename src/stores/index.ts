@@ -10,5 +10,6 @@ export default pinia
 
 import { tabClick } from './tab'
 import { userStore } from './user'
+import { spaceRoleStore } from './spaceRole'
 
-export {tabClick, userStore }
+export {tabClick, userStore,spaceRoleStore }

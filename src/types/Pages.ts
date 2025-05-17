@@ -3,7 +3,7 @@ export type PageParams = {
     /** 页码：默认值为 1 */
     page: number
     /** 页大小：默认值为 20 */
-    pageSize: number
+    size: number
 }
 
 /** 通用分页结果类型 */
