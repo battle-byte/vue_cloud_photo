@@ -325,7 +325,7 @@ const spaceData = ref<SpaceData>({
   maxCount: 0,
   maxSize: 0,
   spaceLever: 0,
-  spaceName: '',
+  spaceName: '公共空间',
   totalCount: 0,
   totalSize: 0,
   updatedAt: '',
@@ -343,7 +343,7 @@ const getUserSpaceData = async () => {
 onMounted(async () => {
   await GetTagsAndCategory()
   await getOlPicture()
-  if (spaceId.value) {
+  if (spaceId.value != '0') {
     await getUserSpaceData()
   }
 })
